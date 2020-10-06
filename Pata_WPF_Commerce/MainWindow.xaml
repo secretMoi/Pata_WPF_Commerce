@@ -31,13 +31,13 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Name="TextBlockNom" Text="Nom" />
-            <TextBox Name="TextBoxNom" Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding DataClient.Nom, Mode=TwoWay}"/>
+            <TextBox Name="TextBoxNom" Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding ClientMap.Nom, Mode=TwoWay}"/>
 
             <TextBlock Name="TextBlockPrenom" Text="Prénom" Grid.Row="1" Grid.Column="0" />
-            <TextBox Name="TextBoxPrenom" Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding DataClient.Prenom, Mode=TwoWay}"/>
+            <TextBox Name="TextBoxPrenom" Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding ClientMap.Prenom, Mode=TwoWay}"/>
 
             <TextBlock Name="TextBlockNaissance" Text="Date de Naissance" Grid.Row="2" Grid.Column="0" />
-            <DatePicker Name="DatePickerNaissance" Grid.Row="2" Grid.Column="1" SelectedDate="{Binding DataClient.Naissance, Mode=TwoWay, StringFormat=dd/mm/yyyy}" Margin="3" />
+            <DatePicker Name="DatePickerNaissance" Grid.Row="2" Grid.Column="1" SelectedDate="{Binding ClientMap.Naissance, Mode=TwoWay, StringFormat=dd/mm/yyyy}" Margin="3" />
         </Grid>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="30,3" HorizontalAlignment="Center">
@@ -45,7 +45,7 @@
             <Button Name="ButtonCancel" Content="Annuler" Margin="3" Command="{Binding CommandeCancel, Mode=OneWay}" />
         </StackPanel>
 
-        <DataGrid Name="DataGridClients" ItemsSource="{Binding Source=Clients}" Grid.Row="2" Grid.Column="0"
+        <DataGrid Name="DataGridClients" ItemsSource="{Binding Path=Clients}" Grid.Row="2" Grid.Column="0"
                   IsReadOnly="True" AutoGenerateColumns="False"
                   SelectedItem="{Binding SelectedClient, Mode=TwoWay}" SelectionChanged="DataGridClients_OnSelectionChanged">
             <DataGrid.Columns>
