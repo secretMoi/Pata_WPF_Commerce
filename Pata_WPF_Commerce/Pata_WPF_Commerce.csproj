@@ -62,6 +62,7 @@
     </ApplicationDefinition>
     <Compile Include="Configuration.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Repositories\ClientsRepository.cs" />
     <Compile Include="ViewModels\BaseCommand.cs" />
     <Compile Include="ViewModels\BaseProperty.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />

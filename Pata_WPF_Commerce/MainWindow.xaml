@@ -41,8 +41,8 @@
         </Grid>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="30,3" HorizontalAlignment="Center">
-            <Button Name="ButtonConfirm" Content="Confirmer" Margin="3" Command="{Binding CommandeConfirm, Mode=OneWay}" />
-            <Button Name="ButtonCancel" Content="Annuler" Margin="3" Command="{Binding CommandeCancel, Mode=OneWay}" />
+            <Button Name="ButtonConfirm" Content="Confirm" Margin="3" Command="{Binding CommandeConfirm, Mode=OneWay}" />
+            <Button Name="ButtonCancel" Content="Cancel" Margin="3" Command="{Binding CommandeCancel, Mode=OneWay}" />
         </StackPanel>
 
         <DataGrid Name="DataGridClients" ItemsSource="{Binding Path=Clients}" Grid.Row="2" Grid.Column="0"
@@ -54,5 +54,10 @@
                 <DataGridTextColumn Header="Prénom" Binding="{Binding Prenom}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" Margin="34, 3">
+            <Button Name="ButtonAjouter" Content="Ajouter" Margin="3" Command="{Binding CommandAdd}"/>
+            <Button Name="ButtonDelete" Content="Supprimer" Margin="3" Command="{Binding CommandDelete}"/>
+        </StackPanel>
     </Grid>
 </Window>

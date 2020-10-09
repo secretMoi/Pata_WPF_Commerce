@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Database.Acces;
 using Database.Classes;
 
@@ -14,9 +15,9 @@ namespace Database.Gestions
 			{
 			}
 
-			public int Ajouter(string nom, byte[] password)
+			public int Ajouter(string nom, string prenom, DateTime naissance)
 			{
-				return new AccesClients(ChaineConnexion).Ajouter(nom, password);
+				return new AccesClients(ChaineConnexion).Ajouter(nom, prenom, naissance);
 			}
 
 			public int Modifier(int id, string nom, byte[] password)
@@ -34,7 +35,7 @@ namespace Database.Gestions
 				return new AccesClients(ChaineConnexion).LireId(id) as Client;
 			}
 
-			public int Supprimer(int id)
+			public new int Supprimer(int id)
 			{
 				return new AccesClients(ChaineConnexion).Supprimer(id);
 			}
