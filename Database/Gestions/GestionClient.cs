@@ -35,7 +35,7 @@ namespace Database.Gestions
 				return new AccesClients(ChaineConnexion).LireId(id) as Client;
 			}
 
-			public new int Supprimer(int id)
+			public int Supprimer(int id)
 			{
 				return new AccesClients(ChaineConnexion).Supprimer(id);
 			}

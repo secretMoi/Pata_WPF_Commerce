@@ -40,7 +40,7 @@ namespace Pata_WPF_Commerce.Repositories
 			}
 			catch (Exception e)
 			{
-				throw new Exception("Impossible de lire les locatires : \n" + e.Message);
+				throw new Exception("Impossible de lire les locatiares : \n" + e.Message);
 			}
 		}
 

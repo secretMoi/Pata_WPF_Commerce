@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Database.Classes;
 using Pata_WPF_Commerce.Repositories;
 using Pata_WPF_Commerce.ViewModels.DataBinding;
@@ -12,7 +10,22 @@ namespace Pata_WPF_Commerce.ViewModels
 {
 	public class ClientViewModel : BaseProperty
 	{
-		private DataClient _clientMap;
+		private DataClient _clientMap; // données bindée dans le formulaire
+		private Client _selectedClient; // données bindée dans la dgv du client sélectionné
+
+		public DataClient ClientMap
+		{
+			get => _clientMap;
+			set => AssignField(ref _clientMap, value, MethodBase.GetCurrentMethod().Name);
+		}
+
+		public Client SelectedClient
+		{
+			get => _selectedClient;
+			set => AssignField(ref _selectedClient, value, MethodBase.GetCurrentMethod().Name);
+		}
+
+		public ObservableCollection<Client> Clients { get; set; }
 
 		public ClientViewModel()
 		{
@@ -40,13 +53,10 @@ namespace Pata_WPF_Commerce.ViewModels
 			return listClients;
 		}
 
-		public DataClient ClientMap
+		public void ChangedSelectedClient()
 		{
-			get => _clientMap;
-			set => AssignField(ref _clientMap, value, MethodBase.GetCurrentMethod().Name);
+			ClientMap = Map(SelectedClient, ClientMap);
 		}
-
-		public ObservableCollection<Client> Clients { get; set; }
 
 		public void Confirm()
 		{
@@ -60,27 +70,25 @@ namespace Pata_WPF_Commerce.ViewModels
 
 		private async void Add()
 		{
-			Client client = new Client()
-			{
-				Nom = "testi",
-				Prenom = "trtr",
-				Naissance = DateTime.Now
-			};
-
+			// ajoute le nouveau client à la bdd
+			Client client = new Client();
+			client = Map(ClientMap, client);
 			int res = await ClientsRepository.Instance.AjouterAsync(client);
 
+			// ajoute ce nouveau client à la dgv
 			client = await ClientsRepository.Instance.LireIdAsync(res);
 			Clients.Add(client);
 		}
 
 		private async void Delete()
 		{
-			int id = 7;
+			if(SelectedClient == null) return;
 
-			await ClientsRepository.Instance.SupprimerAsync(id);
+			// supprime le client de la bdd
+			await ClientsRepository.Instance.SupprimerAsync(SelectedClient.Id);
 
-			Client clientToRemove = Clients.FirstOrDefault(client => client.Id == id);
-			Clients.Remove(clientToRemove);
+			// supprime le client de la dgv
+			Clients.Remove(SelectedClient);
 		}
 
 		#region Commands

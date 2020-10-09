@@ -21,7 +21,8 @@ namespace Pata_WPF_Commerce
 
 		private void DataGridClients_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			
+			if (DataGridClients.SelectedIndex >= 0)
+				_viewModel.ChangedSelectedClient();
 		}
 	}
 }

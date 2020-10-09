@@ -55,7 +55,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" Margin="34, 3">
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" Margin="34, 3">
             <Button Name="ButtonAjouter" Content="Ajouter" Margin="3" Command="{Binding CommandAdd}"/>
             <Button Name="ButtonDelete" Content="Supprimer" Margin="3" Command="{Binding CommandDelete}"/>
         </StackPanel>

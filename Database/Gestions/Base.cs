@@ -19,10 +19,10 @@
 			return new Acces.Base(ChaineConnexion).TestConnection();
 		}
 
-		public virtual void Supprimer(int id)
+		/*public virtual int Supprimer(int id)
 		{
-			new Acces.Base(ChaineConnexion).Supprimer(id);
-		}
+			return new Acces.Base(ChaineConnexion).Supprimer(id);
+		}*/
 
 		#region Accesseur
 		public string ChaineConnexion { get; set; }
