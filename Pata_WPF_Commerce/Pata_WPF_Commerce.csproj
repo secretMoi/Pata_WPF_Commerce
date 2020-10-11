@@ -67,7 +67,7 @@
     <Compile Include="ViewModels\BaseProperty.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\DataBinding\DataClient.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\Clients.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -75,8 +75,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Views\Clients.xaml.cs">
+      <DependentUpon>Clients.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -109,7 +109,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Database\Database.csproj">

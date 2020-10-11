@@ -20,9 +20,9 @@ namespace Database.Gestions
 				return new AccesClients(ChaineConnexion).Ajouter(nom, prenom, naissance);
 			}
 
-			public int Modifier(int id, string nom, byte[] password)
+			public int Modifier(int id, string nom, string prenom, DateTime naissance)
 			{
-				return new AccesClients(ChaineConnexion).Modifier(id, nom, password);
+				return new AccesClients(ChaineConnexion).Modifier(id, nom, prenom, naissance);
 			}
 
 			public List<Client> Lire(string index)

@@ -40,7 +40,7 @@ namespace Pata_WPF_Commerce.Repositories
 			}
 			catch (Exception e)
 			{
-				throw new Exception("Impossible de lire les locatiares : \n" + e.Message);
+				throw new Exception("Impossible de lire les clients : \n" + e.Message);
 			}
 		}
 
@@ -57,7 +57,7 @@ namespace Pata_WPF_Commerce.Repositories
 			}
 			catch (Exception e)
 			{
-				throw new Exception($"Impossible de lire le locataire {id} : \n" + e.Message);
+				throw new Exception($"Impossible de lire le client {id} : \n" + e.Message);
 			}
 		}
 
@@ -74,7 +74,7 @@ namespace Pata_WPF_Commerce.Repositories
 			}
 			catch (Exception e)
 			{
-				throw new Exception("Impossible d'ajouter le locataire : \n" + e.Message);
+				throw new Exception("Impossible d'ajouter le client : \n" + e.Message);
 			}
 		}
 
@@ -91,13 +91,30 @@ namespace Pata_WPF_Commerce.Repositories
 			}
 			catch (Exception e)
 			{
-				throw new Exception($"Impossible de supprimer le locataire {id} : \n" + e.Message);
+				throw new Exception($"Impossible de supprimer le client {id} : \n" + e.Message);
 			}
 		}
 
 		public async Task<int> SupprimerAsync(int id)
 		{
 			return await Task.Run(() => Supprimer(id));
+		}
+
+		public int Modifier(Client client)
+		{
+			try
+			{
+				return Controller.Modifier(client.Id, client.Nom, client.Prenom, client.Naissance);
+			}
+			catch (Exception e)
+			{
+				throw new Exception($"Impossible de modifier le client {client.Id} : \n" + e.Message);
+			}
+		}
+
+		public async Task<int> ModifierAsync(Client client)
+		{
+			return await Task.Run(() => Modifier(client));
 		}
 	}
 }
