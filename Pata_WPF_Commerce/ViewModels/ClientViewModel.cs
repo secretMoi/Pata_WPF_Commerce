@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Controls;
+using System.Windows;
 using System.Windows.Documents;
 using Database.Classes;
 using Pata_WPF_Commerce.Repositories;
@@ -127,6 +127,14 @@ namespace Pata_WPF_Commerce.ViewModels
 		private async void Delete()
 		{
 			if(SelectedClient == null) return; // si aucun n'est sélectionné on quitte
+
+			// confirmation de suppression
+			var result = MessageBox.Show(
+				$"Voulez-vous vraiment supprimer le client {SelectedClient.Nom} {SelectedClient.Prenom} ?",
+				"Suppression", MessageBoxButton.YesNo
+			);
+
+			if(result == MessageBoxResult.No) return;
 
 			// supprime le client de la bdd
 			await ClientsRepository.Instance.SupprimerAsync(SelectedClient.Id);

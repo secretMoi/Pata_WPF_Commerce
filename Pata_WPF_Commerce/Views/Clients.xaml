@@ -4,8 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Client" Height="450" Width="800">
+        Title="Client" Height="450" Width="800"
+        xmlns:viewModels="clr-namespace:Pata_WPF_Commerce.ViewModels"
+        d:DataContext="{d:DesignInstance viewModels:ClientViewModel, IsDesignTimeCreatable=True}" >
     <Grid Margin="3">
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
