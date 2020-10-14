@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using Database.Acces;
 
 namespace Database.Classes
 {
@@ -39,6 +39,11 @@ namespace Database.Classes
 			}
 
 			return _champs;
+		}
+
+		public override Type GetAcces()
+		{
+			return typeof(AccesClients);
 		}
 
 		public int Id { get; set; }

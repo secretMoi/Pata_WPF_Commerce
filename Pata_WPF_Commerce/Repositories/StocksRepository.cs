@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Database.Acces;
 using Database.Classes;
 using Database.Gestions;
 
@@ -36,7 +37,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Controller.Lire(index);
+				return new Gestion<Stock, AccesStock>(Configuration.Instance.Connexion).Lire("id");
 			}
 			catch (Exception e)
 			{
