@@ -352,6 +352,18 @@ namespace Database.Acces
 				}
 				else if (champ.Item2 == typeof(DateTime)) // si le champ est un DateTime
 					arguments[i] = Convert.ToDateTime(valeur);
+				else if (champ.Item2 == typeof(decimal)) // si le champ est un decimal
+				{
+					try
+					{
+						arguments[i] = decimal.Parse(LireChamp(sqlDataReader, champ.Item1));
+					}
+					catch
+					{
+						throw new Exception("Impossible de convertir la valeur " + valeur + " en nombre");
+					}
+				}
+					
 
 				else
 					throw new Exception(

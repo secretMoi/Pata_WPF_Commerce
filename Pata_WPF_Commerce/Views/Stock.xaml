@@ -1,0 +1,73 @@
+﻿<Window x:Class="Pata_WPF_Commerce.Views.Stock"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:viewModels="clr-namespace:Pata_WPF_Commerce.ViewModels"
+        d:DataContext="{d:DesignInstance viewModels:StockViewModel, IsDesignTimeCreatable=True}"
+        Title="Stock" Height="450" Width="800">
+
+    <Grid Margin="3">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Name="Form">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Name="TextBlockNom" Text="Nom" />
+            <TextBox Name="TextBoxNom" Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.Nom, Mode=TwoWay}"/>
+
+            <TextBlock Name="TextBlockQuantiteActuelle" Text="Quantité actuelle" Grid.Row="1" Grid.Column="0" />
+            <TextBox Name="TextBoxQuantiteActuelle" Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.QuantiteActuelle, Mode=TwoWay}"/>
+            
+            <TextBlock Name="TextBlockQuantiteMin" Text="Quantité Minimale" Grid.Row="2" Grid.Column="0" />
+            <TextBox Name="TextBoxQuantiteMin" Grid.Row="2" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.QuantiteMin, Mode=TwoWay}"/>
+
+            <TextBlock Name="TextBlockPrixAchat" Text="Prix d'achat" Grid.Row="3" Grid.Column="0" />
+            <TextBox Name="TextBoxPrixAchat" Grid.Row="3" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.PrixAchat, Mode=TwoWay}"/>
+
+            <TextBlock Name="TextBlockPrixVente" Text="Prix de vente" Grid.Row="4" Grid.Column="0" />
+            <TextBox Name="TextBoxPrixVente" Grid.Row="4" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.PrixVente, Mode=TwoWay}"/>
+        </Grid>
+
+        <DataGrid Name="DataGridClients" ItemsSource="{Binding Path=Stocks}" Grid.Row="2" Grid.Column="0"
+              IsReadOnly="True" AutoGenerateColumns="False"
+              SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionChanged="DataGridClients_OnSelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*" />
+                <DataGridTextColumn Header="Quantité actuelle" Binding="{Binding QuantiteActuelle}" Width="*" />
+                <DataGridTextColumn Header="Prix" Binding="{Binding PrixVente}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" Margin="34, 3">
+            <Button Name="ButtonAjouter" Content="Ajouter" Margin="3" Padding="3" Command="{Binding CommandAdd}"/>
+            <Button Name="ButtonDelete" Content="Supprimer" Margin="3" Padding="3" Command="{Binding CommandDelete}"/>
+            <Button Name="ButtonModify" Content="Modifier" Margin="3" Padding="3" Command="{Binding CommandModify}"/>
+        </StackPanel>
+
+        <RichTextBox Name="RichTextBoxClients" Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" />
+    </Grid>
+</Window>

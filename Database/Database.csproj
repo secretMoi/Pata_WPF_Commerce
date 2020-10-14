@@ -42,11 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acces\AccesClients.cs" />
+    <Compile Include="Acces\AccesStock.cs" />
     <Compile Include="Acces\Base.cs" />
     <Compile Include="Classes\Base.cs" />
     <Compile Include="Classes\Client.cs" />
+    <Compile Include="Classes\Stock.cs" />
     <Compile Include="Gestions\Base.cs" />
     <Compile Include="Gestions\GestionClient.cs" />
+    <Compile Include="Gestions\GestionStock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

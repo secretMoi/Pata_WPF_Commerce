@@ -63,10 +63,19 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repositories\ClientsRepository.cs" />
+    <Compile Include="Repositories\StocksRepository.cs" />
+    <Compile Include="ViewModels\AccueilViewModel.cs" />
     <Compile Include="ViewModels\BaseCommand.cs" />
     <Compile Include="ViewModels\BaseProperty.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\DataBinding\DataClient.cs" />
+    <Compile Include="Views\Stock.xaml.cs">
+      <DependentUpon>Stock.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\Accueil.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Clients.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,10 +84,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModels\DataBinding\DataStock.cs" />
+    <Compile Include="ViewModels\StockViewModel.cs" />
+    <Compile Include="Views\Accueil.xaml.cs">
+      <DependentUpon>Accueil.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Clients.xaml.cs">
       <DependentUpon>Clients.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Stock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -107,9 +125,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Database\Database.csproj">
       <Project>{a600b84f-0710-4185-ad8f-5366f24e6a77}</Project>
