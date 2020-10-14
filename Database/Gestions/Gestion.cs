@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Database.Gestions
 {
-	public class Gestion<T, TU> where TU : Acces.Base where T : Classes.Base
+	public class Gestion<T> where T : Classes.Base, new()
 	{
 		public string ChaineConnexion { get; set; }
 
@@ -17,9 +17,9 @@ namespace Database.Gestions
 			ChaineConnexion = sChaineConnexion;
 		}
 
-		private TU GetInstance()
+		private Acces.Base GetInstance()
 		{
-			return (TU) Activator.CreateInstance(typeof(TU), ChaineConnexion);
+			return (dynamic)Activator.CreateInstance(new T().GetAcces(), ChaineConnexion);
 		}
 
 		public bool TestConnection()
@@ -30,6 +30,26 @@ namespace Database.Gestions
 		public List<T> Lire(string index)
 		{
 			return GetInstance().Lire(index).ConvertAll(x => (T)x);
+		}
+
+		public T LireId(int id)
+		{
+			return GetInstance().LireId(id) as T;
+		}
+
+		public int Ajouter(params object[] arguments)
+		{
+			return GetInstance().Ajouter(arguments);
+		}
+
+		public int Modifier(params object[] arguments)
+		{
+			return GetInstance().Modifier(arguments);
+		}
+
+		public int Supprimer(int id)
+		{
+			return GetInstance().Supprimer(id);
 		}
 	}
 }

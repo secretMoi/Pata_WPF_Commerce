@@ -59,6 +59,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		private async void Delete()
 		{
+			// todo supprimer ou gérer les clé étrangères
 			if (SelectedItem == null) return; // si aucun n'est sélectionné on quitte
 
 			// confirmation de suppression

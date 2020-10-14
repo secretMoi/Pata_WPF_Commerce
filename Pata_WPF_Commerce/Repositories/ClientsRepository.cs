@@ -19,16 +19,16 @@ namespace Pata_WPF_Commerce.Repositories
 			
 		}
 
-		private static GestionClient _gestionClient;
+		private static Gestion<Client> _gestion;
 
-		private GestionClient Controller
+		private Gestion<Client> Gestion
 		{
 			get
 			{
-				if(_gestionClient == null)
-					_gestionClient = new GestionClient(Configuration.Instance.Connexion);
+				if(_gestion == null)
+					_gestion = new Gestion<Client>(Configuration.Instance.Connexion);
 
-				return _gestionClient;
+				return _gestion;
 			}
 		}
 
@@ -36,7 +36,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Controller.Lire(index);
+				return Gestion.Lire(index);
 			}
 			catch (Exception e)
 			{
@@ -53,7 +53,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Controller.LireId(id);
+				return Gestion.LireId(id);
 			}
 			catch (Exception e)
 			{
@@ -70,7 +70,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Controller.Ajouter(client.Nom, client.Prenom, client.Naissance);
+				return Gestion.Ajouter(client.Nom, client.Prenom, client.Naissance);
 			}
 			catch (Exception e)
 			{
@@ -87,7 +87,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Controller.Supprimer(id);
+				return Gestion.Supprimer(id);
 			}
 			catch (Exception e)
 			{
@@ -104,7 +104,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Controller.Modifier(client.Id, client.Nom, client.Prenom, client.Naissance);
+				return Gestion.Modifier(client.Id, client.Nom, client.Prenom, client.Naissance);
 			}
 			catch (Exception e)
 			{

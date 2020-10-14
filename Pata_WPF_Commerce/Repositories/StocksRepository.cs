@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Database.Acces;
 using Database.Classes;
 using Database.Gestions;
 
@@ -20,14 +19,14 @@ namespace Pata_WPF_Commerce.Repositories
 
 		}
 
-		private static GestionStock _gestion;
+		private static Gestion<Stock> _gestion;
 
-		private GestionStock Controller
+		private Gestion<Stock> Gestion
 		{
 			get
 			{
 				if (_gestion == null)
-					_gestion = new GestionStock(Configuration.Instance.Connexion);
+					_gestion = new Gestion<Stock>(Configuration.Instance.Connexion);
 
 				return _gestion;
 			}
@@ -37,7 +36,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return new Gestion<Stock, AccesStock>(Configuration.Instance.Connexion).Lire("id");
+				return Gestion.Lire("id");
 			}
 			catch (Exception e)
 			{
@@ -54,7 +53,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Controller.LireId(id);
+				return Gestion.LireId(id);
 			}
 			catch (Exception e)
 			{
@@ -71,7 +70,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Controller.Ajouter(model.Nom, model.QuantiteActuelle, model.QuantiteMin, model.PrixAchat, model.PrixVente);
+				return Gestion.Ajouter(model.Nom, model.QuantiteActuelle, model.QuantiteMin, model.PrixAchat, model.PrixVente);
 			}
 			catch (Exception e)
 			{
@@ -88,7 +87,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Controller.Supprimer(id);
+				return Gestion.Supprimer(id);
 			}
 			catch (Exception e)
 			{
@@ -105,7 +104,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Controller.Modifier(model.Id, model.Nom, model.QuantiteActuelle, model.QuantiteMin, model.PrixAchat, model.PrixVente);
+				return Gestion.Modifier(model.Id, model.Nom, model.QuantiteActuelle, model.QuantiteMin, model.PrixAchat, model.PrixVente);
 			}
 			catch (Exception e)
 			{
