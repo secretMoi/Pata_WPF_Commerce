@@ -5,13 +5,13 @@ using Pata_WPF_Commerce.ViewModels;
 namespace Pata_WPF_Commerce.Views
 {
 	/// <summary>
-	/// Logique d'interaction pour Stock.xaml
+	/// Logique d'interaction pour Achat.xaml
 	/// </summary>
-	public partial class Stock : Window
+	public partial class Achat : Window
 	{
-		private readonly StockViewModel _viewModel = new StockViewModel();
+		private readonly AchatViewModel _viewModel = new AchatViewModel();
 
-		public Stock()
+		public Achat()
 		{
 			InitializeComponent();
 
@@ -20,8 +20,7 @@ namespace Pata_WPF_Commerce.Views
 
 		private void DataGridClients_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (DataGridClients.SelectedIndex >= 0) 
-				_viewModel.ChangedSelectedClient();
+			
 		}
 	}
 }

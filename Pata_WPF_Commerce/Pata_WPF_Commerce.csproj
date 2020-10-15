@@ -65,14 +65,23 @@
     <Compile Include="Repositories\ClientsRepository.cs" />
     <Compile Include="Repositories\StocksRepository.cs" />
     <Compile Include="ViewModels\AccueilViewModel.cs" />
+    <Compile Include="ViewModels\AchatViewModel.cs" />
     <Compile Include="ViewModels\BaseCommand.cs" />
     <Compile Include="ViewModels\BaseProperty.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
+    <Compile Include="ViewModels\DataBinding\DataAchat.cs" />
     <Compile Include="ViewModels\DataBinding\DataClient.cs" />
+    <Compile Include="Views\Achat.xaml.cs">
+      <DependentUpon>Achat.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Stock.xaml.cs">
       <DependentUpon>Stock.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\Accueil.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Achat.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -13,6 +13,7 @@ namespace Pata_WPF_Commerce.ViewModels
 	{
 		private DataStock _itemInForm; // données bindée dans le formulaire
 		private Stock _selectedItemInDgv; // données du client sélectionné dans la dgv
+		private readonly StocksRepository _repository = StocksRepository.Instance;
 
 		public DataStock ItemInForm // données bindée dans le formulaire
 		{
@@ -48,7 +49,7 @@ namespace Pata_WPF_Commerce.ViewModels
 			// ajoute le nouveau client à la bdd
 			Stock model = new Stock();
 			model = Map(ItemInForm, model);
-			await StocksRepository.Instance.AjouterAsync(model);
+			await _repository.AjouterAsync(model);
 
 			// ajoute ce nouveau client à la dgv
 			Stocks.Add(model);
@@ -71,7 +72,7 @@ namespace Pata_WPF_Commerce.ViewModels
 			if (result == MessageBoxResult.No) return;
 
 			// supprime l'item de la bdd
-			await StocksRepository.Instance.SupprimerAsync(SelectedItem.Id);
+			await _repository.SupprimerAsync(SelectedItem.Id);
 
 			// supprime l'item de la dgv
 			Stocks.Remove(SelectedItem);
@@ -86,18 +87,23 @@ namespace Pata_WPF_Commerce.ViewModels
 			Stock model = new Stock();
 			model = Map(ItemInForm, model);
 
-			await StocksRepository.Instance.ModifierAsync(model); // ajoute à la bdd
+			await _repository.ModifierAsync(model); // ajoute à la bdd
 
 			// rafraichit la dgv
 			int index = Stocks.IndexOf(SelectedItem);
 			Stocks[index] = model;
 		}
 
+		/**
+		 * <summary>Charge les items de la bdd pour hydrater la dgv</summary>
+		 * <returns>Retourne une liste d'éléments</returns>
+		 */
 		private ObservableCollection<Stock> LoadStocks()
 		{
 			ObservableCollection<Stock> list = new ObservableCollection<Stock>();
-			IList<Stock> tempsList = StocksRepository.Instance.Lire();
+			IList<Stock> tempsList = _repository.Lire(); // lit la bdd
 
+			// injecte dans la liste
 			foreach (var stock in tempsList)
 				list.Add(stock);
 
