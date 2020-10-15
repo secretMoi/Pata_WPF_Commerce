@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using Pata_WPF_Commerce.ViewModels;
 
@@ -18,9 +19,15 @@ namespace Pata_WPF_Commerce.Views
 			DataContext = _viewModel;
 		}
 
-		private void DataGridClients_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void DataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			
+			if (DataGridStock.SelectedIndex >= 0)
+				_viewModel.ChangedSelected();
+		}
+
+		private void TextBoxQuantite_OnTextChanged(object sender, TextChangedEventArgs e)
+		{
+			_viewModel.ChangeQuantite(TextBoxQuantite.Text);
 		}
 	}
 }

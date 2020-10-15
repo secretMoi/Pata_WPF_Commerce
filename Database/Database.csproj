@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Acces\AccesAchat.cs" />
     <Compile Include="Acces\AccesClients.cs" />
+    <Compile Include="Acces\AccesFournisseur.cs" />
     <Compile Include="Acces\AccesStock.cs" />
     <Compile Include="Acces\Base.cs" />
     <Compile Include="Acces\AccesCommandesAchat.cs" />
@@ -50,11 +51,9 @@
     <Compile Include="Classes\Base.cs" />
     <Compile Include="Classes\Client.cs" />
     <Compile Include="Classes\CommandesAchat.cs" />
+    <Compile Include="Classes\Fournisseur.cs" />
     <Compile Include="Classes\Stock.cs" />
-    <Compile Include="Gestions\Base.cs" />
     <Compile Include="Gestions\Gestion.cs" />
-    <Compile Include="Gestions\GestionClient.cs" />
-    <Compile Include="Gestions\GestionStock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

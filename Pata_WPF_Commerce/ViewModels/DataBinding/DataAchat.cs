@@ -1,31 +1,26 @@
 ﻿using System.Reflection;
+using Database.Classes;
 
 namespace Pata_WPF_Commerce.ViewModels.DataBinding
 {
 	public class DataAchat : BaseProperty
 	{
-		private int _id;
-		private int _idStock;
-		private int _idCommande;
 		private int _quantite;
-		private decimal _prix;
+		private decimal _prixTotal;
 
-		public int Id
+		private Stock _stock;
+		private Fournisseur _fournisseur;
+
+		public Stock Stock
 		{
-			get => _id;
-			set => AssignField(ref _id, value, MethodBase.GetCurrentMethod().Name);
+			get => _stock;
+			set => AssignField(ref _stock, value, MethodBase.GetCurrentMethod().Name);
 		}
 
-		public int IdStock
+		public Fournisseur Fournisseur
 		{
-			get => _idStock;
-			set => AssignField(ref _idStock, value, MethodBase.GetCurrentMethod().Name);
-		}
-
-		public int IdCommande
-		{
-			get => _idCommande;
-			set => AssignField(ref _idCommande, value, MethodBase.GetCurrentMethod().Name);
+			get => _fournisseur;
+			set => AssignField(ref _fournisseur, value, MethodBase.GetCurrentMethod().Name);
 		}
 
 		public int Quantite
@@ -34,10 +29,10 @@ namespace Pata_WPF_Commerce.ViewModels.DataBinding
 			set => AssignField(ref _quantite, value, MethodBase.GetCurrentMethod().Name);
 		}
 
-		public decimal Prix
+		public decimal PrixTotal
 		{
-			get => _prix;
-			set => AssignField(ref _prix, value, MethodBase.GetCurrentMethod().Name);
+			get => _prixTotal;
+			set => AssignField(ref _prixTotal, value, MethodBase.GetCurrentMethod().Name);
 		}
 	}
 }

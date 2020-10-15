@@ -63,6 +63,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repositories\ClientsRepository.cs" />
+    <Compile Include="Repositories\FournisseursRepository.cs" />
     <Compile Include="Repositories\StocksRepository.cs" />
     <Compile Include="ViewModels\AccueilViewModel.cs" />
     <Compile Include="ViewModels\AchatViewModel.cs" />

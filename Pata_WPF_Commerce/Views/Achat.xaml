@@ -35,33 +35,32 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Name="TextBlockNom" Text="Nom" />
-            <TextBox Name="TextBoxNom" Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.Nom, Mode=TwoWay}"/>
+            <TextBox Name="TextBoxNom" Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.Stock.Nom, Mode=TwoWay}"/>
 
             <TextBlock Name="TextBlockPrixUnitaire" Text="Prix unitaire" Grid.Row="1" Grid.Column="0" />
-            <TextBox Name="TextBoxPrixUnitaire" Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.QuantiteActuelle, Mode=TwoWay}"/>
+            <TextBox Name="TextBoxPrixUnitaire" Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.Stock.PrixAchat, Mode=TwoWay}"/>
 
             <TextBlock Name="TextBlockQuantite" Text="Quantité" Grid.Row="2" Grid.Column="0" />
-            <TextBox Name="TextBoxQuantite" Grid.Row="2" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.QuantiteMin, Mode=TwoWay}"/>
+            <TextBox Name="TextBoxQuantite" Grid.Row="2" Grid.Column="1" Margin="3" TextChanged="TextBoxQuantite_OnTextChanged" Text="{Binding ItemInForm.Quantite, Mode=TwoWay}"/>
 
-            <TextBlock Name="TextBlockPrixTotal" Text="Prix total" Grid.Row="3" Grid.Column="0" />
-            <TextBox Name="TextBoxPrixTotal" Grid.Row="3" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.PrixAchat, Mode=TwoWay}"/>
+            <TextBlock Text="Prix total" Grid.Row="3" Grid.Column="0" />
+            <TextBlock Name="TextBlockPrixTotal" Text="{Binding ItemInForm.PrixTotal, Mode=TwoWay}" Margin="3" Grid.Row="3" Grid.Column="1" />
 
             <TextBlock Name="TextBlockFournisseur" Text="Fournisseur" Grid.Row="4" Grid.Column="0" />
-            <ComboBox Grid.Row="4"  Grid.Column="1" Margin="3">
-                <ComboBoxItem IsSelected="True">coucou</ComboBoxItem>
-                <ComboBoxItem>2</ComboBoxItem>
-            </ComboBox>
+            <ComboBox Grid.Row="4" Grid.Column="1" Margin="3"
+                      ItemsSource="{Binding Fournisseurs}" SelectedValue="{Binding SelectedProvider, Mode=TwoWay}"
+                      DisplayMemberPath="Nom" SelectedValuePath="Nom" />
         </Grid>
 
-        <DataGrid Name="DataGridClients" ItemsSource="{Binding Path=Stocks}" Grid.Row="2" Grid.Column="0"
+        <DataGrid Name="DataGridStock" ItemsSource="{Binding Path=Stocks}" Grid.Row="2" Grid.Column="0"
               IsReadOnly="True" AutoGenerateColumns="False"
-              SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionChanged="DataGridClients_OnSelectionChanged">
+              SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionChanged="DataGrid_OnSelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Visibility="Hidden" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*" />
                 <DataGridTextColumn Header="Quantité actuelle" Binding="{Binding QuantiteActuelle}" Width="*" />
-                <DataGridTextColumn Header="Quantité minimale" Binding="{Binding QuantiteActuelle}" Width="*" />
-                <DataGridTextColumn Header="Prix" Binding="{Binding PrixVente}" Width="*" />
+                <DataGridTextColumn Header="Quantité minimale" Binding="{Binding QuantiteMin}" Width="*" />
+                <DataGridTextColumn Header="Prix" Binding="{Binding PrixAchat}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
 
