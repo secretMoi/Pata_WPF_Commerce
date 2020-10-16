@@ -29,5 +29,10 @@ namespace Pata_WPF_Commerce.Views
 		{
 			_viewModel.ChangeQuantite(TextBoxQuantite.Text);
 		}
+
+		private void ButtonAjouter_OnClick(object sender, RoutedEventArgs e)
+		{
+			RichTextBox.Document = _viewModel.AddItem();
+		}
 	}
 }

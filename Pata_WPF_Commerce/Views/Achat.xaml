@@ -48,7 +48,7 @@
 
             <TextBlock Name="TextBlockFournisseur" Text="Fournisseur" Grid.Row="4" Grid.Column="0" />
             <ComboBox Grid.Row="4" Grid.Column="1" Margin="3"
-                      ItemsSource="{Binding Fournisseurs}" SelectedValue="{Binding SelectedProvider, Mode=TwoWay}"
+                      ItemsSource="{Binding Fournisseurs}" SelectedItem="{Binding SelectedProvider, Mode=TwoWay}"
                       DisplayMemberPath="Nom" SelectedValuePath="Nom" />
         </Grid>
 
@@ -65,8 +65,10 @@
         </DataGrid>
 
         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" Margin="34, 3">
-            <Button Name="ButtonAjouter" Content="Ajouter" Margin="3" Padding="3" Command="{Binding CommandAdd}"/>
+            <Button Name="ButtonAjouter" Content="Ajouter" Margin="3" Padding="3" Click="ButtonAjouter_OnClick" Command="{Binding CommandAdd}"/>
             <Button Name="ButtonModify" Content="Modifier" Margin="3" Padding="3" Command="{Binding CommandModify}"/>
         </StackPanel>
+
+        <RichTextBox Name="RichTextBox" Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" />
     </Grid>
 </Window>
