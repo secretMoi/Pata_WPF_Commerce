@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Documents;
@@ -19,7 +20,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		private readonly StocksRepository _stockRepository = StocksRepository.Instance;
 		private readonly FournisseursRepository _fournisseurRepository = FournisseursRepository.Instance;
 
-		private IList<Acheter> _acheter = new List<Acheter>();
+		private readonly IList<Acheter> _acheter = new List<Acheter>();
 
 		public ObservableCollection<Stock> Stocks { get; set; } // données bindée dans la dgv
 		public ObservableCollection<Fournisseur> Fournisseurs { get; set; } // données bindée dans la dgv du client sélectionné
@@ -48,10 +49,6 @@ namespace Pata_WPF_Commerce.ViewModels
 
 			Stocks = LoadStocks(); // récupère les stocks dans la bdd
 			Fournisseurs = LoadFournisseurs(); // récupère les fournisseurs dans la bdd
-
-			// bind les commandes au xaml
-			/*CommandAdd = new BaseCommand(Add);
-			CommandModify = new BaseCommand(Modify);*/
 		}
 
 		/**
@@ -97,6 +94,7 @@ namespace Pata_WPF_Commerce.ViewModels
 
 		/**
 		 * <summary>Adapte le prix total lorsque la quantité change</summary>
+		 * <param name="quantiteText">Quantité sous format texte</param>
 		 */
 		public void ChangeQuantite(string quantiteText)
 		{
@@ -107,38 +105,79 @@ namespace Pata_WPF_Commerce.ViewModels
 		}
 
 		/**
-		 * <summary>Génère la liste des items à acheter</summary>
+		 * <summary>Ajoute un élément aux items à acheter</summary>
 		 * <returns>Un document formatté contenant la liste des items à acheter</returns>
 		 */
 		public FlowDocument AddItem()
 		{
-			if (ItemInForm == null || SelectedProvider == null)
+			if (ItemInForm == null || SelectedProvider == null || ItemInForm.Quantite < 1)
 			{
-				MessageBox.Show("Veuillez remplir tous les champs !");
-				return new FlowDocument();
+				MessageBox.Show("Veuillez remplir correctement tous les champs !");
+				return Viewer.LastDocument;
 			}
 
-			Acheter acheter = new Acheter()
+			Acheter elementExistant = _acheter.FirstOrDefault(item => item.Stock.Id == SelectedItem.Id);
+			if (elementExistant == null)
 			{
-				Fournisseur = SelectedProvider,
-				Quantite = ItemInForm.Quantite,
-				Stock = ItemInForm.Stock
-			};
-			_acheter.Add(acheter);
+				Acheter acheter = new Acheter()
+				{
+					Fournisseur = SelectedProvider,
+					Quantite = ItemInForm.Quantite,
+					Stock = ItemInForm.Stock
+				};
+				_acheter.Add(acheter);
+			}
+			else
+				_acheter.First(item => item == elementExistant).Quantite += ItemInForm.Quantite;
+
+			return GenerateDocument();
+		}
+
+		/**
+		 * <summary>Supprime un élément des items à acheter</summary>
+		 * <returns>Un document formatté contenant la liste des items à acheter</returns>
+		 */
+		public FlowDocument DeleteItem()
+		{
+			if (SelectedItem == null)
+				return Viewer.LastDocument;
+
+			var elementToDelete = _acheter.FirstOrDefault(item => SelectedItem.Id == item.Stock.Id);
+			_acheter.Remove(elementToDelete);
+
+			return GenerateDocument();
+		}
+
+		/**
+		 * <summary>Modifie un élément des items à acheter</summary>
+		 * <returns>Un document formatté contenant la liste des items à acheter</returns>
+		 */
+		public FlowDocument ModifyItem()
+		{
+			if (ItemInForm == null || SelectedProvider == null || ItemInForm.Quantite < 1)
+				return Viewer.LastDocument;
+
+			_acheter.First(item => SelectedItem.Id == item.Stock.Id).Quantite = ItemInForm.Quantite;
+
+			return GenerateDocument();
+		}
+
+		/**
+		 * <summary>Génère le document des items à acheter</summary>
+		 * <returns>Un document formatté contenant la liste des items à acheter</returns>
+		 */
+		private FlowDocument GenerateDocument()
+		{
+			if(_acheter.Count < 1) return Viewer.LastDocument;
 
 			Viewer viewer = new Viewer();
-			viewer.SetTitle("Acheter chez " + acheter.Fournisseur.Nom);
+			viewer.SetTitle("Acheter chez " + _acheter.Last().Fournisseur.Nom);
 
 			foreach (var achat in _acheter)
-			{
 				viewer.AddElement($"{achat.Quantite}X {achat.Stock.Nom} à {achat.Stock.PrixAchat}€");
-			}
 
 			return viewer.Execute();
 		}
-
-		public BaseCommand CommandAdd { get; set; }
-		public BaseCommand CommandModify { get; set; }
 
 		private class Acheter
 		{

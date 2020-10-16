@@ -35,10 +35,10 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Name="TextBlockNom" Text="Nom" />
-            <TextBox Name="TextBoxNom" Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.Stock.Nom, Mode=TwoWay}"/>
+            <TextBox Name="TextBoxNom" IsReadOnly="True" Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.Stock.Nom, Mode=TwoWay}"/>
 
             <TextBlock Name="TextBlockPrixUnitaire" Text="Prix unitaire" Grid.Row="1" Grid.Column="0" />
-            <TextBox Name="TextBoxPrixUnitaire" Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.Stock.PrixAchat, Mode=TwoWay}"/>
+            <TextBox Name="TextBoxPrixUnitaire" IsReadOnly="True" Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.Stock.PrixAchat, Mode=TwoWay}"/>
 
             <TextBlock Name="TextBlockQuantite" Text="Quantité" Grid.Row="2" Grid.Column="0" />
             <TextBox Name="TextBoxQuantite" Grid.Row="2" Grid.Column="1" Margin="3" TextChanged="TextBoxQuantite_OnTextChanged" Text="{Binding ItemInForm.Quantite, Mode=TwoWay}"/>
@@ -65,8 +65,9 @@
         </DataGrid>
 
         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" Margin="34, 3">
-            <Button Name="ButtonAjouter" Content="Ajouter" Margin="3" Padding="3" Click="ButtonAjouter_OnClick" Command="{Binding CommandAdd}"/>
-            <Button Name="ButtonModify" Content="Modifier" Margin="3" Padding="3" Command="{Binding CommandModify}"/>
+            <Button Name="ButtonAjouter" Content="Ajouter" Margin="3" Padding="3" Click="ButtonAjouter_OnClick" />
+            <Button Name="ButtonModify" Content="Modifier" Margin="3" Padding="3" Click="ButtonModify_OnClick"/>
+            <Button Name="ButtonDelete" Content="Supprimer" Margin="3" Padding="3" Click="ButtonDelete_OnClick" />
         </StackPanel>
 
         <RichTextBox Name="RichTextBox" Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" />

@@ -34,5 +34,15 @@ namespace Pata_WPF_Commerce.Views
 		{
 			RichTextBox.Document = _viewModel.AddItem();
 		}
+
+		private void ButtonDelete_OnClick(object sender, RoutedEventArgs e)
+		{
+			RichTextBox.Document = _viewModel.DeleteItem();
+		}
+
+		private void ButtonModify_OnClick(object sender, RoutedEventArgs e)
+		{
+			RichTextBox.Document = _viewModel.ModifyItem();
+		}
 	}
 }
