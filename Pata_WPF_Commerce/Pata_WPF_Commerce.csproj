@@ -76,11 +76,16 @@
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\DataBinding\DataAchat.cs" />
     <Compile Include="ViewModels\DataBinding\DataClient.cs" />
+    <Compile Include="ViewModels\DataBinding\DataVente.cs" />
+    <Compile Include="ViewModels\VenteViewModel.cs" />
     <Compile Include="Views\Achat.xaml.cs">
       <DependentUpon>Achat.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Stock.xaml.cs">
       <DependentUpon>Stock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Vente.xaml.cs">
+      <DependentUpon>Vente.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\Accueil.xaml">
       <SubType>Designer</SubType>
@@ -108,6 +113,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Stock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Vente.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

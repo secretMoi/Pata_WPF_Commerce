@@ -12,21 +12,22 @@ using Pata_WPF_Commerce.ViewModels.DataBinding;
 
 namespace Pata_WPF_Commerce.ViewModels
 {
-	public class AchatViewModel : BaseProperty
+	public class VenteViewModel : BaseProperty
 	{
-		private DataAchat _itemInForm; // données bindée dans le formulaire
+		private DataVente _itemInForm; // données bindée dans le formulaire
 		private Stock _selectedItemInDgv; // données dans la dgv
-		private Fournisseur _selectedItemInComboBox; // données dans la combo box
+		private Client _selectedItemInComboBox; // données dans la combo box
 
 		private readonly StocksRepository _stockRepository = StocksRepository.Instance;
-		private readonly FournisseursRepository _fournisseurRepository = FournisseursRepository.Instance;
+		private readonly ClientsRepository _clientRepository = ClientsRepository.Instance;
+		//private readonly ClientsRepository _clientRepository = ClientsRepository.Instance;
 
-		private readonly IList<Acheter> _acheter = new List<Acheter>(); // liste des éléments à acheter dans la rtb
+		private readonly IList<Vendre> _acheter = new List<Vendre>(); // liste des éléments à acheter dans la rtb
 
 		public ObservableCollection<Stock> Stocks { get; set; } // données bindée dans la dgv
-		public ObservableCollection<Fournisseur> Fournisseurs { get; set; } // données bindée dans la dgv du client sélectionné
+		public ObservableCollection<Client> Clients { get; set; } // données bindée dans la dgv du client sélectionné
 
-		public DataAchat ItemInForm // données bindées dans le formulaire
+		public DataVente ItemInForm // données bindées dans le formulaire
 		{
 			get => _itemInForm;
 			set => AssignField(ref _itemInForm, value, MethodBase.GetCurrentMethod().Name);
@@ -38,7 +39,7 @@ namespace Pata_WPF_Commerce.ViewModels
 			set => AssignField(ref _selectedItemInDgv, value, MethodBase.GetCurrentMethod().Name);
 		}
 
-		public Fournisseur SelectedProvider // élément sélectionné dans la combo box
+		public Client SelectedClient // élément sélectionné dans la combo box
 		{
 			get => _selectedItemInComboBox;
 			set => AssignField(ref _selectedItemInComboBox, value, MethodBase.GetCurrentMethod().Name);
@@ -46,12 +47,12 @@ namespace Pata_WPF_Commerce.ViewModels
 
 		public BaseCommand CommandConfirm { get; set; }
 
-		public AchatViewModel()
+		public VenteViewModel()
 		{
-			ItemInForm = new DataAchat();
+			ItemInForm = new DataVente();
 
 			Stocks = LoadStocks(); // récupère les stocks dans la bdd
-			Fournisseurs = LoadFournisseurs(); // récupère les fournisseurs dans la bdd
+			Clients = LoadClients(); // récupère les fournisseurs dans la bdd
 
 			// bind les commandes au xaml
 			CommandConfirm = new BaseCommand(Confirm);
@@ -77,10 +78,10 @@ namespace Pata_WPF_Commerce.ViewModels
 		 * <summary>Charge les items de la bdd pour hydrater la dgv</summary>
 		 * <returns>Retourne une liste d'éléments</returns>
 		 */
-		private ObservableCollection<Fournisseur> LoadFournisseurs()
+		private ObservableCollection<Client> LoadClients()
 		{
-			ObservableCollection<Fournisseur> list = new ObservableCollection<Fournisseur>();
-			IList<Fournisseur> tempsList = _fournisseurRepository.Lire(); // lit la bdd
+			ObservableCollection<Client> list = new ObservableCollection<Client>();
+			IList<Client> tempsList = _clientRepository.Lire(); // lit la bdd
 
 			// injecte dans la liste
 			foreach (var element in tempsList)
@@ -104,7 +105,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		public void ChangeQuantite(string quantiteText)
 		{
-			if(ItemInForm.Stock == null) return;
+			if (ItemInForm.Stock == null) return;
 
 			if (decimal.TryParse(quantiteText, out var quantite))
 				ItemInForm.PrixTotal = Money.Round(quantite * ItemInForm.Stock.PrixAchat);
@@ -116,16 +117,16 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		public FlowDocument AddItem()
 		{
-			if (ItemInForm == null || SelectedProvider == null || ItemInForm.Quantite < 1)
+			if (ItemInForm == null || SelectedClient == null || ItemInForm.Quantite < 1)
 			{
 				MessageBox.Show("Veuillez remplir correctement tous les champs !");
 				return Viewer.LastDocument;
 			}
 
-			Acheter elementExistant = _acheter.FirstOrDefault(item => item.Stock.Id == SelectedItem.Id);
+			Vendre elementExistant = _acheter.FirstOrDefault(item => item.Stock.Id == SelectedItem.Id);
 			if (elementExistant == null)
 			{
-				Acheter acheter = new Acheter()
+				Vendre acheter = new Vendre()
 				{
 					Quantite = ItemInForm.Quantite,
 					Stock = ItemInForm.Stock
@@ -144,7 +145,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		public FlowDocument DeleteItem()
 		{
-			if (SelectedItem == null || SelectedProvider == null)
+			if (SelectedItem == null || SelectedClient == null)
 				return Viewer.LastDocument;
 
 			var elementToDelete = _acheter.FirstOrDefault(item => SelectedItem.Id == item.Stock.Id);
@@ -159,7 +160,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		public FlowDocument ModifyItem()
 		{
-			if (ItemInForm == null || SelectedProvider == null || ItemInForm.Quantite < 1)
+			if (ItemInForm == null || SelectedClient == null || ItemInForm.Quantite < 1)
 				return Viewer.LastDocument;
 
 			_acheter.First(item => SelectedItem.Id == item.Stock.Id).Quantite = ItemInForm.Quantite;
@@ -176,7 +177,7 @@ namespace Pata_WPF_Commerce.ViewModels
 			//if(_acheter.Count < 1) return Viewer.LastDocument;
 
 			Viewer viewer = new Viewer();
-			viewer.SetTitle($"Acheter chez {SelectedProvider?.Nom} pour {SommeTotale()}");
+			viewer.SetTitle($"Acheter chez {SelectedClient?.Nom} pour {SommeTotale()}");
 
 			foreach (var achat in _acheter)
 				viewer.AddElement($"{achat.Quantite}X {achat.Stock.Nom} à {achat.Stock.PrixAchat}€");
@@ -211,7 +212,7 @@ namespace Pata_WPF_Commerce.ViewModels
 			// cée la commande
 			CommandesAchat commandeAchat = new CommandesAchat()
 			{
-				IdFournisseur = SelectedProvider.Id,
+				IdFournisseur = SelectedClient.Id,
 				Date = DateTime.Now
 			};
 			int idCommande = await CommandesAchatsRepository.Instance.AjouterAsync(commandeAchat);
@@ -230,10 +231,10 @@ namespace Pata_WPF_Commerce.ViewModels
 				await DetailAchatsRepository.Instance.AjouterAsync(achat);
 			}
 
-			MessageBox.Show("Commande effectué chez " + SelectedProvider.Nom);
+			MessageBox.Show("Commande effectué chez " + SelectedClient.Nom);
 		}
 
-		private class Acheter
+		private class Vendre
 		{
 			public Stock Stock { get; set; }
 			public int Quantite { get; set; }

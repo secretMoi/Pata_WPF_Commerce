@@ -12,6 +12,7 @@
             <Button Name="ButtonClients" Content="Clients" Margin="3" Padding="3" Command="{Binding CommandClients, Mode=OneWay}" />
             <Button Name="ButtonStocks" Content="Stocks" Margin="3" Padding="3" Command="{Binding CommandStocks, Mode=OneWay}" />
             <Button Name="ButtonAchat" Content="Achat" Margin="3" Padding="3" Command="{Binding CommandAchats, Mode=OneWay}" />
+            <Button Name="ButtonVendre" Content="Vendre" Margin="3" Padding="3" Command="{Binding CommandVentes, Mode=OneWay}" />
         </StackPanel>
     </Grid>
 </Window>
