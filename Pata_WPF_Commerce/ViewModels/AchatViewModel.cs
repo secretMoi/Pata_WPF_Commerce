@@ -177,12 +177,21 @@ namespace Pata_WPF_Commerce.ViewModels
 			//if(_acheter.Count < 1) return Viewer.LastDocument;
 
 			Viewer viewer = new Viewer();
-			viewer.SetTitle("Acheter chez " + SelectedProvider?.Nom);
+			viewer.SetTitle($"Acheter chez {SelectedProvider?.Nom} pour {SommeTotale()}");
 
 			foreach (var achat in _acheter)
 				viewer.AddElement($"{achat.Quantite}X {achat.Stock.Nom} à {achat.Stock.PrixAchat}€");
 
 			return viewer.Execute();
+		}
+
+		private string SommeTotale()
+		{
+			decimal total = 0;
+			foreach (var achat in _acheter)
+				total += achat.Quantite * achat.Stock.PrixAchat;
+
+			return Money.Display(total);
 		}
 
 		private async void Confirm()

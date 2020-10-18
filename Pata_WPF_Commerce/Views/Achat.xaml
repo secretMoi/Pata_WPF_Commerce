@@ -1,76 +1,76 @@
 ﻿<Window x:Class="Pata_WPF_Commerce.Views.Achat"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        xmlns:viewModels="clr-namespace:Pata_WPF_Commerce.ViewModels"
-        d:DataContext="{d:DesignInstance viewModels:AchatViewModel, IsDesignTimeCreatable=True}"
-        Title="Achat" Height="450" Width="800">
-    <Grid Margin="3">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		mc:Ignorable="d"
+		xmlns:viewModels="clr-namespace:Pata_WPF_Commerce.ViewModels"
+		d:DataContext="{d:DesignInstance viewModels:AchatViewModel, IsDesignTimeCreatable=True}"
+		Title="Achat" Height="450" Width="800">
+	<Grid Margin="3">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
 
-        <Grid Name="Form">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
+		<Grid Name="Form">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition />
+				<RowDefinition />
+			</Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
 
-            <TextBlock Name="TextBlockNom" Text="Nom" />
-            <TextBox Name="TextBoxNom" IsReadOnly="True" Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.Stock.Nom, Mode=TwoWay}"/>
+			<TextBlock Name="TextBlockNom" Text="Nom" />
+			<TextBox Name="TextBoxNom" IsReadOnly="True" Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.Stock.Nom, Mode=TwoWay}"/>
 
-            <TextBlock Name="TextBlockPrixUnitaire" Text="Prix unitaire" Grid.Row="1" Grid.Column="0" />
-            <TextBox Name="TextBoxPrixUnitaire" IsReadOnly="True" Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.Stock.PrixAchat, Mode=TwoWay}"/>
+			<TextBlock Name="TextBlockPrixUnitaire" Text="Prix unitaire" Grid.Row="1" Grid.Column="0" />
+			<TextBox Name="TextBoxPrixUnitaire" IsReadOnly="True" Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.Stock.PrixAchat, Mode=TwoWay}"/>
 
-            <TextBlock Name="TextBlockQuantite" Text="Quantité" Grid.Row="2" Grid.Column="0" />
-            <TextBox Name="TextBoxQuantite" Grid.Row="2" Grid.Column="1" Margin="3" TextChanged="TextBoxQuantite_OnTextChanged" Text="{Binding ItemInForm.Quantite, Mode=TwoWay}"/>
+			<TextBlock Name="TextBlockQuantite" Text="Quantité" Grid.Row="2" Grid.Column="0" />
+			<TextBox Name="TextBoxQuantite" Grid.Row="2" Grid.Column="1" Margin="3" TextChanged="TextBoxQuantite_OnTextChanged" Text="{Binding ItemInForm.Quantite, Mode=TwoWay}"/>
 
-            <TextBlock Text="Prix total" Grid.Row="3" Grid.Column="0" />
-            <TextBlock Name="TextBlockPrixTotal" Text="{Binding ItemInForm.PrixTotal, Mode=TwoWay}" Margin="3" Grid.Row="3" Grid.Column="1" />
+			<TextBlock Text="Prix total" Grid.Row="3" Grid.Column="0" />
+			<TextBlock Name="TextBlockPrixTotal" Text="{Binding ItemInForm.PrixTotal, Mode=TwoWay}" Margin="3" Grid.Row="3" Grid.Column="1" />
 
-            <TextBlock Name="TextBlockFournisseur" Text="Fournisseur" Grid.Row="4" Grid.Column="0" />
-            <ComboBox Grid.Row="4" Grid.Column="1" Margin="3"
-                      ItemsSource="{Binding Fournisseurs}" SelectedItem="{Binding SelectedProvider, Mode=TwoWay}"
-                      DisplayMemberPath="Nom" SelectedValuePath="Nom" />
-        </Grid>
+			<TextBlock Name="TextBlockFournisseur" Text="Fournisseur" Grid.Row="4" Grid.Column="0" />
+			<ComboBox Grid.Row="4" Grid.Column="1" Margin="3"
+					  ItemsSource="{Binding Fournisseurs}" SelectedItem="{Binding SelectedProvider, Mode=TwoWay}"
+					  DisplayMemberPath="Nom" SelectedValuePath="Nom" />
+		</Grid>
 
-        <DataGrid Name="DataGridStock" ItemsSource="{Binding Path=Stocks}" Grid.Row="2" Grid.Column="0"
-              IsReadOnly="True" AutoGenerateColumns="False"
-              SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionChanged="DataGrid_OnSelectionChanged">
-            <DataGrid.Columns>
-                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*" />
-                <DataGridTextColumn Header="Quantité actuelle" Binding="{Binding QuantiteActuelle}" Width="*" />
-                <DataGridTextColumn Header="Quantité minimale" Binding="{Binding QuantiteMin}" Width="*" />
-                <DataGridTextColumn Header="Prix" Binding="{Binding PrixAchat}" Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>
+		<DataGrid Name="DataGridStock" ItemsSource="{Binding Path=Stocks}" Grid.Row="2" Grid.Column="0"
+			  IsReadOnly="True" AutoGenerateColumns="False"
+			  SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionChanged="DataGrid_OnSelectionChanged">
+			<DataGrid.Columns>
+				<DataGridTextColumn Visibility="Hidden" Binding="{Binding Id}" />
+				<DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*" />
+				<DataGridTextColumn Header="Quantité actuelle" Binding="{Binding QuantiteActuelle}" Width="*" />
+				<DataGridTextColumn Header="Quantité minimale" Binding="{Binding QuantiteMin}" Width="*" />
+				<DataGridTextColumn Header="Prix" Binding="{Binding PrixAchat}" Width="*" />
+			</DataGrid.Columns>
+		</DataGrid>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" Margin="34, 3">
-            <Button Name="ButtonAjouter" Content="Ajouter" Margin="3" Padding="3" Click="ButtonAjouter_OnClick" />
-            <Button Name="ButtonModify" Content="Modifier" Margin="3" Padding="3" Click="ButtonModify_OnClick"/>
-            <Button Name="ButtonDelete" Content="Supprimer" Margin="3" Padding="3" Click="ButtonDelete_OnClick" />
-        </StackPanel>
+		<StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" Margin="34, 3">
+			<Button Name="ButtonAjouter" Content="Ajouter" Margin="3" Padding="3" Click="ButtonAjouter_OnClick" />
+			<Button Name="ButtonModify" Content="Modifier" Margin="3" Padding="3" Click="ButtonModify_OnClick"/>
+			<Button Name="ButtonDelete" Content="Supprimer" Margin="3" Padding="3" Click="ButtonDelete_OnClick" />
+		</StackPanel>
 
-        <RichTextBox Name="RichTextBox" Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" />
-        <Button Name="ButtonConfirm" Content="Commander" Grid.Column="1" Grid.Row="3" Margin="3" Padding="3" Command="{Binding CommandConfirm}" />
-    </Grid>
+		<RichTextBox Name="RichTextBox" Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" />
+		<Button Name="ButtonConfirm" Content="Commander" Grid.Column="1" Grid.Row="3" Margin="3" Padding="3" Command="{Binding CommandConfirm}" />
+	</Grid>
 </Window>
