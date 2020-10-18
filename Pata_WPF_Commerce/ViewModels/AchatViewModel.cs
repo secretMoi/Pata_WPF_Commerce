@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -20,7 +21,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		private readonly StocksRepository _stockRepository = StocksRepository.Instance;
 		private readonly FournisseursRepository _fournisseurRepository = FournisseursRepository.Instance;
 
-		private readonly IList<Acheter> _acheter = new List<Acheter>();
+		private readonly IList<Acheter> _acheter = new List<Acheter>(); // liste des éléments à acheter dans la rtb
 
 		public ObservableCollection<Stock> Stocks { get; set; } // données bindée dans la dgv
 		public ObservableCollection<Fournisseur> Fournisseurs { get; set; } // données bindée dans la dgv du client sélectionné
@@ -43,12 +44,17 @@ namespace Pata_WPF_Commerce.ViewModels
 			set => AssignField(ref _selectedItemInComboBox, value, MethodBase.GetCurrentMethod().Name);
 		}
 
+		public BaseCommand CommandConfirm { get; set; }
+
 		public AchatViewModel()
 		{
 			ItemInForm = new DataAchat();
 
 			Stocks = LoadStocks(); // récupère les stocks dans la bdd
 			Fournisseurs = LoadFournisseurs(); // récupère les fournisseurs dans la bdd
+
+			// bind les commandes au xaml
+			CommandConfirm = new BaseCommand(Confirm);
 		}
 
 		/**
@@ -139,7 +145,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		public FlowDocument DeleteItem()
 		{
-			if (SelectedItem == null)
+			if (SelectedItem == null || SelectedProvider == null)
 				return Viewer.LastDocument;
 
 			var elementToDelete = _acheter.FirstOrDefault(item => SelectedItem.Id == item.Stock.Id);
@@ -168,15 +174,48 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		private FlowDocument GenerateDocument()
 		{
-			if(_acheter.Count < 1) return Viewer.LastDocument;
+			//if(_acheter.Count < 1) return Viewer.LastDocument;
 
 			Viewer viewer = new Viewer();
-			viewer.SetTitle("Acheter chez " + _acheter.Last().Fournisseur.Nom);
+			viewer.SetTitle("Acheter chez " + SelectedProvider?.Nom);
 
 			foreach (var achat in _acheter)
 				viewer.AddElement($"{achat.Quantite}X {achat.Stock.Nom} à {achat.Stock.PrixAchat}€");
 
 			return viewer.Execute();
+		}
+
+		private async void Confirm()
+		{
+			if (_acheter.Count < 1)
+			{
+				MessageBox.Show("Veuillez commander des articles...");
+				return;
+			}
+
+			// cée la commande
+			CommandesAchat commandeAchat = new CommandesAchat()
+			{
+				IdFournisseur = SelectedProvider.Id,
+				Date = DateTime.Now
+			};
+			int idCommande = await CommandesAchatsRepository.Instance.AjouterAsync(commandeAchat);
+
+			// ajoute tous les éléments de la commande
+			foreach (var achatForm in _acheter)
+			{
+				Achat achat = new Achat()
+				{
+					IdStock = achatForm.Stock.Id,
+					Prix = achatForm.Stock.PrixAchat,
+					Quantite = achatForm.Quantite,
+					IdCommande = idCommande
+				};
+
+				await DetailAchatsRepository.Instance.AjouterAsync(achat);
+			}
+
+			MessageBox.Show("Commande effectué chez " + SelectedProvider.Nom);
 		}
 
 		private class Acheter

@@ -71,5 +71,6 @@
         </StackPanel>
 
         <RichTextBox Name="RichTextBox" Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" />
+        <Button Name="ButtonConfirm" Content="Commander" Grid.Column="1" Grid.Row="3" Margin="3" Padding="3" Command="{Binding CommandConfirm}" />
     </Grid>
 </Window>
