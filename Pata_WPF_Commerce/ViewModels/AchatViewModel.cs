@@ -229,22 +229,13 @@ namespace Pata_WPF_Commerce.ViewModels
 
 				await DetailAchatsRepository.Instance.AjouterAsync(achat);
 
-				//todo finir + pour vente
 				// modifie la quantité des stocks actuels
 				Stock stock = _stockRepository.LireId(achat.IdStock);
 				stock.QuantiteActuelle += achat.Quantite;
 				await _stockRepository.ModifierAsync(stock);
-
-				// rafraichit la dgv
-				FindStockInDgv(stock).QuantiteActuelle = stock.QuantiteActuelle;
 			}
 
 			MessageBox.Show("Commande effectuée chez " + SelectedProvider.Nom);
-		}
-
-		private Stock FindStockInDgv(Stock stock)
-		{
-			return Stocks.FirstOrDefault(item => item.Id == stock.Id);
 		}
 
 		private class Acheter

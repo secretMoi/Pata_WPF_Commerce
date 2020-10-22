@@ -210,6 +210,17 @@ namespace Pata_WPF_Commerce.ViewModels
 				return;
 			}
 
+			// vérifie que l'on a assez de stock pour la vente
+			foreach (var achatForm in _acheter)
+			{
+				Stock stockInDb = _stockRepository.LireId(achatForm.Stock.Id);
+				if (achatForm.Quantite > stockInDb.QuantiteActuelle)
+				{
+					MessageBox.Show($"Vous ne pouvez pas commander plus de {stockInDb.QuantiteActuelle} exemplaires de {stockInDb.Nom}");
+					return;
+				}
+			}
+
 			// cée la commande
 			CommandesVente commande = new CommandesVente()
 			{
@@ -230,6 +241,11 @@ namespace Pata_WPF_Commerce.ViewModels
 				};
 
 				await _detailVentesRepository.AjouterAsync(vente);
+
+				// modifie la quantité des stocks actuels
+				Stock stock = _stockRepository.LireId(vente.IdStock);
+				stock.QuantiteActuelle -= vente.Quantite;
+				await _stockRepository.ModifierAsync(stock);
 			}
 
 			MessageBox.Show("Commande effectuée par " + SelectedClient.Nom);

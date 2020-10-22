@@ -57,10 +57,10 @@
 			  SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionChanged="DataGrid_OnSelectionChanged">
 			<DataGrid.Columns>
 				<DataGridTextColumn Visibility="Hidden" Binding="{Binding Id}" />
-				<DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*" />
-				<DataGridTextColumn Header="Quantité actuelle" Binding="{Binding QuantiteActuelle}" Width="*" />
-				<DataGridTextColumn Header="Quantité minimale" Binding="{Binding QuantiteMin}" Width="*" />
-				<DataGridTextColumn Header="Prix" Binding="{Binding PrixAchat}" Width="*" />
+                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*" />
+                <DataGridTextColumn Header="Quantité actuelle" Binding="{Binding QuantiteActuelle}" Width="*" />
+                <DataGridTextColumn Header="Quantité minimale" Binding="{Binding QuantiteMin}" Width="*" />
+                <DataGridTextColumn Header="Prix" Binding="{Binding PrixAchat}" Width="*" />
 			</DataGrid.Columns>
 		</DataGrid>
 
