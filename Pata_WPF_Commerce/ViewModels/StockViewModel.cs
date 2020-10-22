@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Pata_WPF_Commerce.Repositories;
 using Pata_WPF_Commerce.ViewModels.DataBinding;
 using Stock = Database.Classes.Stock;
@@ -113,6 +116,12 @@ namespace Pata_WPF_Commerce.ViewModels
 		public void ChangedSelectedClient()
 		{
 			ItemInForm = Map(SelectedItem, ItemInForm);
+		}
+
+		public void AdaptBackColor(DataGridRowEventArgs e)
+		{
+			if (((Stock)e.Row.DataContext).QuantiteMin >= ((Stock)e.Row.DataContext).QuantiteActuelle)
+				e.Row.Background = new SolidColorBrush(Color.FromRgb(255, 85, 66));
 		}
 
 		public BaseCommand CommandAdd { get; set; }

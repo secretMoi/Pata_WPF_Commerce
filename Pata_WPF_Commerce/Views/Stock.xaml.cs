@@ -23,5 +23,10 @@ namespace Pata_WPF_Commerce.Views
 			if (DataGridClients.SelectedIndex >= 0) 
 				_viewModel.ChangedSelectedClient();
 		}
+
+		private void DataGridClients_OnLoadingRow(object sender, DataGridRowEventArgs e)
+		{
+			_viewModel.AdaptBackColor(e);
+		}
 	}
 }
