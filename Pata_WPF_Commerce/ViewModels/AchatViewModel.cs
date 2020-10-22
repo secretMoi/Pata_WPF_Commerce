@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 using Database.Classes;
@@ -242,58 +241,28 @@ namespace Pata_WPF_Commerce.ViewModels
 			MessageBox.Show("Commande effectuée chez " + SelectedProvider.Nom);
 		}
 
-		/*private void Facture()
+		private void Facture()
 		{
-			// fichier
-			string dossierFactures = "facturesFournisseur";
+			HtmlView html = new HtmlView("Commande", 4);
 
-			Pdf.DirectoryAvailable(dossierFactures);
+			html.GenerateColumn("Nom", "Quantité", "Prix unitaire", "Prix final"); // génère les colonnes
 
-			string fichier = dossierFactures + "/fournisseur-" +
-			                 SelectedProvider.Nom + "-" +
-			                 Pdf.SetDate();
-
-			Pdf pdf = new Pdf(fichier);
-
-			// logo
-			//pdf.Logo("logo");
-
-			// infos clients
-			StringBuilder clientText = new StringBuilder();
-			clientText.Append("Fournisseur : ");
-			clientText.Append(SelectedProvider.Nom + "\n");
-			pdf.RightColumn(clientText);
-
-			// titre
-			pdf.Title("Facture Fournisseur");
-
-			//tableau
-			pdf.MakeTable(4);
-
-			// header tableau
-			pdf.MakeTableHeader("Nom");
-			pdf.MakeTableHeader("Quantité");
-			pdf.MakeTableHeader("Prix unitaire");
-			pdf.MakeTableHeader("Prix final");
-
-			decimal somme = 0;
-
+			// rempli les colonnes
 			// données tableau
 			foreach (var item in _acheter)
 			{
-				pdf.MakeTableData(item.Stock.Nom);
-				pdf.MakeTableData(item.Quantite.ToString());
-				pdf.MakeTableData(item.Stock.PrixAchat.ToString(CultureInfo.InvariantCulture));
-				pdf.MakeTableData((item.Stock.PrixAchat * item.Quantite).ToString(CultureInfo.InvariantCulture));
-
-				somme += item.Stock.PrixAchat * item.Quantite;
+				html.GenerateBody(item.Stock.Nom);
+				html.GenerateBody(item.Quantite.ToString());
+				html.GenerateBody(item.Stock.PrixAchat.ToString(CultureInfo.InvariantCulture));
+				html.GenerateBody((item.Stock.PrixAchat * item.Quantite).ToString(CultureInfo.InvariantCulture));
 			}
 
-			// montant
-			//pdf.RightColumn("Montant : " + somme);
+			html.GenerateFooter();
 
-			pdf.Close();
-		}*/
+			string date = DateTime.Now.ToString(CultureInfo.InvariantCulture).Replace(':', '_');
+			date = date.Replace('/', '_');
+			html.SaveTo("FactureFournisseur", $"facture_{SelectedProvider.Nom}_{date}");
+		}
 
 		private class Acheter
 		{

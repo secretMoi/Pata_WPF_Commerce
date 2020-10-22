@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Text;
-using iText.Kernel.Colors;
 using Color = System.Windows.Media.Color;
 
 namespace Pata_WPF_Commerce.Core
@@ -8,12 +7,11 @@ namespace Pata_WPF_Commerce.Core
 	public class HtmlView
 	{
 		private StringBuilder _htmlCode;
-		private int _nombreColonnes;
 		private int _colonneActuelle;
 
 		public HtmlView(string titre, int nombreColonnes)
 		{
-			_nombreColonnes = nombreColonnes;
+			NombreColonnes = nombreColonnes;
 			GenerateHead(titre);
 		}
 
@@ -43,7 +41,7 @@ namespace Pata_WPF_Commerce.Core
 
 		public void GenerateColumn(params string[] data)
 		{
-			if (data.Length != _nombreColonnes) return;
+			if (data.Length != NombreColonnes) return;
 
 			_htmlCode.Append("<tr>\r\n");
 
@@ -61,7 +59,7 @@ namespace Pata_WPF_Commerce.Core
 
 		public void GenerateBody(string data)
 		{
-			if (_colonneActuelle % _nombreColonnes == 0)
+			if (_colonneActuelle % NombreColonnes == 0)
 			{
 				_htmlCode.Append("<tr>\r\n");
 
@@ -88,18 +86,17 @@ namespace Pata_WPF_Commerce.Core
 			);
 		}
 
-		public void SaveTo(string file)
+		public void SaveTo(string path, string file)
 		{
+			if (!Directory.Exists(path))
+				Directory.CreateDirectory(path);
+
 			GenerateFooter();
-			File.WriteAllText(file + ".html", _htmlCode.ToString());
+			File.WriteAllText(path + "/" + file + ".html", _htmlCode.ToString());
 		}
 
 		public string SourceCode => _htmlCode.ToString();
 
-		public int NombreColonnes
-		{
-			get => _nombreColonnes;
-			set => _nombreColonnes = value;
-		}
+		public int NombreColonnes { get; set; }
 	}
 }
