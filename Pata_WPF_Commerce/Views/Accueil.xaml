@@ -8,11 +8,20 @@
         d:DataContext="{d:DesignInstance viewModels:AccueilViewModel, IsDesignTimeCreatable=True}"
         Title="Accueil" Height="450" Width="800">
     <Grid>
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="30,3" HorizontalAlignment="Center">
-            <Button Name="ButtonClients" Content="Clients" Margin="3" Padding="3" Command="{Binding CommandClients, Mode=OneWay}" />
-            <Button Name="ButtonStocks" Content="Stocks" Margin="3" Padding="3" Command="{Binding CommandStocks, Mode=OneWay}" />
-            <Button Name="ButtonAchat" Content="Achat" Margin="3" Padding="3" Command="{Binding CommandAchats, Mode=OneWay}" />
-            <Button Name="ButtonVendre" Content="Vendre" Margin="3" Padding="3" Command="{Binding CommandVentes, Mode=OneWay}" />
-        </StackPanel>
+        <DockPanel Grid.Row="0">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_Fournisseurs">
+                    <MenuItem Header="Achat" Command="{Binding CommandAchats, Mode=OneWay}" />
+                </MenuItem>
+                <MenuItem Header="_Clients">
+                    <MenuItem Header="Vendre"  Command="{Binding CommandVentes, Mode=OneWay}" />
+                    <MenuItem Header="Liste"  Command="{Binding CommandClients, Mode=OneWay}" />
+                </MenuItem>
+
+                <MenuItem Header="_Stock" Command="{Binding CommandStocks, Mode=OneWay}" />
+            </Menu>
+        </DockPanel>
+
+        <Button Content="Vérifier les stocks" Command="{Binding CommandCheckStock, Mode=OneWay}" />
     </Grid>
 </Window>
