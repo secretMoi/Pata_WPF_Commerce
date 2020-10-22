@@ -20,7 +20,8 @@ namespace Pata_WPF_Commerce.ViewModels
 
 		private readonly StocksRepository _stockRepository = StocksRepository.Instance;
 		private readonly ClientsRepository _clientRepository = ClientsRepository.Instance;
-		//private readonly ClientsRepository _clientRepository = ClientsRepository.Instance;
+		private readonly DetailVentesRepository _detailVentesRepository = DetailVentesRepository.Instance;
+		private readonly CommandesVentesRepository _commandesVentesRepository = CommandesVentesRepository.Instance;
 
 		private readonly IList<Vendre> _acheter = new List<Vendre>(); // liste des éléments à acheter dans la rtb
 
@@ -177,7 +178,7 @@ namespace Pata_WPF_Commerce.ViewModels
 			//if(_acheter.Count < 1) return Viewer.LastDocument;
 
 			Viewer viewer = new Viewer();
-			viewer.SetTitle($"Acheter chez {SelectedClient?.Nom} pour {SommeTotale()}");
+			viewer.SetTitle($"{SelectedClient?.Nom} achète pour {SommeTotale()}");
 
 			foreach (var achat in _acheter)
 				viewer.AddElement($"{achat.Quantite}X {achat.Stock.Nom} à {achat.Stock.PrixAchat}€");
@@ -210,17 +211,17 @@ namespace Pata_WPF_Commerce.ViewModels
 			}
 
 			// cée la commande
-			CommandesAchat commandeAchat = new CommandesAchat()
+			CommandesVente commande = new CommandesVente()
 			{
-				IdFournisseur = SelectedClient.Id,
+				IdClient = SelectedClient.Id,
 				Date = DateTime.Now
 			};
-			int idCommande = await CommandesAchatsRepository.Instance.AjouterAsync(commandeAchat);
+			int idCommande = await _commandesVentesRepository.AjouterAsync(commande);
 
 			// ajoute tous les éléments de la commande
 			foreach (var achatForm in _acheter)
 			{
-				Achat achat = new Achat()
+				Vente vente = new Vente()
 				{
 					IdStock = achatForm.Stock.Id,
 					Prix = achatForm.Stock.PrixAchat,
@@ -228,10 +229,10 @@ namespace Pata_WPF_Commerce.ViewModels
 					IdCommande = idCommande
 				};
 
-				await DetailAchatsRepository.Instance.AjouterAsync(achat);
+				await _detailVentesRepository.AjouterAsync(vente);
 			}
 
-			MessageBox.Show("Commande effectué chez " + SelectedClient.Nom);
+			MessageBox.Show("Commande effectuée par " + SelectedClient.Nom);
 		}
 
 		private class Vendre
