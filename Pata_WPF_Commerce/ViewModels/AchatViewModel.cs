@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 using Database.Classes;
@@ -235,8 +237,63 @@ namespace Pata_WPF_Commerce.ViewModels
 				await _stockRepository.ModifierAsync(stock);
 			}
 
+			Facture();
+
 			MessageBox.Show("Commande effectuée chez " + SelectedProvider.Nom);
 		}
+
+		/*private void Facture()
+		{
+			// fichier
+			string dossierFactures = "facturesFournisseur";
+
+			Pdf.DirectoryAvailable(dossierFactures);
+
+			string fichier = dossierFactures + "/fournisseur-" +
+			                 SelectedProvider.Nom + "-" +
+			                 Pdf.SetDate();
+
+			Pdf pdf = new Pdf(fichier);
+
+			// logo
+			//pdf.Logo("logo");
+
+			// infos clients
+			StringBuilder clientText = new StringBuilder();
+			clientText.Append("Fournisseur : ");
+			clientText.Append(SelectedProvider.Nom + "\n");
+			pdf.RightColumn(clientText);
+
+			// titre
+			pdf.Title("Facture Fournisseur");
+
+			//tableau
+			pdf.MakeTable(4);
+
+			// header tableau
+			pdf.MakeTableHeader("Nom");
+			pdf.MakeTableHeader("Quantité");
+			pdf.MakeTableHeader("Prix unitaire");
+			pdf.MakeTableHeader("Prix final");
+
+			decimal somme = 0;
+
+			// données tableau
+			foreach (var item in _acheter)
+			{
+				pdf.MakeTableData(item.Stock.Nom);
+				pdf.MakeTableData(item.Quantite.ToString());
+				pdf.MakeTableData(item.Stock.PrixAchat.ToString(CultureInfo.InvariantCulture));
+				pdf.MakeTableData((item.Stock.PrixAchat * item.Quantite).ToString(CultureInfo.InvariantCulture));
+
+				somme += item.Stock.PrixAchat * item.Quantite;
+			}
+
+			// montant
+			//pdf.RightColumn("Montant : " + somme);
+
+			pdf.Close();
+		}*/
 
 		private class Acheter
 		{

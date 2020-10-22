@@ -35,7 +35,7 @@ namespace Pata_WPF_Commerce.Core
 
 		public bool Logo(string name)
 		{
-			string path = @"Ressources/Images/" + name + ".png";
+			/*string path = @"Ressources/Images/" + name + ".png";
 
 			if (!File.Exists(path)) return false;
 
@@ -44,7 +44,7 @@ namespace Pata_WPF_Commerce.Core
 				.SetWidth(100)
 				.SetTextAlignment(TextAlignment.LEFT);
 
-			_elements.Add(logo);
+			_elements.Add(logo);*/
 
 			return true;
 		}
