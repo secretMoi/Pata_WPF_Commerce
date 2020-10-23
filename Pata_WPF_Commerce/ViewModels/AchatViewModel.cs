@@ -19,7 +19,7 @@ namespace Pata_WPF_Commerce.ViewModels
 	public class AchatViewModel : BaseProperty
 	{
 		private DataAchat _itemInForm; // données bindée dans le formulaire
-		private Stock _selectedItemInDgv; // données dans la dgv
+		private DataStock _selectedItemInDgv; // données dans la dgv
 		private Fournisseur _selectedItemInComboBox; // données dans la combo box
 
 		private readonly StocksRepository _stockRepository = StocksRepository.Instance;
@@ -27,7 +27,7 @@ namespace Pata_WPF_Commerce.ViewModels
 
 		private readonly IList<Acheter> _acheter = new List<Acheter>(); // liste des éléments à acheter dans la rtb
 
-		public ObservableCollection<Stock> Stocks { get; set; } // données bindée dans la dgv
+		public ObservableCollection<DataStock> Stocks { get; set; } // données bindée dans la dgv
 		public ObservableCollection<Fournisseur> Fournisseurs { get; set; } // données bindée dans la dgv du client sélectionné
 
 		public DataAchat ItemInForm // données bindées dans le formulaire
@@ -36,7 +36,7 @@ namespace Pata_WPF_Commerce.ViewModels
 			set => AssignField(ref _itemInForm, value, MethodBase.GetCurrentMethod().Name);
 		}
 
-		public Stock SelectedItem // élément sélectionné dans la dgv
+		public DataStock SelectedItem // élément sélectionné dans la dgv
 		{
 			get => _selectedItemInDgv;
 			set => AssignField(ref _selectedItemInDgv, value, MethodBase.GetCurrentMethod().Name);
@@ -65,14 +65,14 @@ namespace Pata_WPF_Commerce.ViewModels
 		 * <summary>Charge les items de la bdd pour hydrater la dgv</summary>
 		 * <returns>Retourne une liste d'éléments</returns>
 		 */
-		private ObservableCollection<Stock> LoadStocks()
+		private ObservableCollection<DataStock> LoadStocks()
 		{
-			ObservableCollection<Stock> list = new ObservableCollection<Stock>();
+			ObservableCollection<DataStock> list = new ObservableCollection<DataStock>();
 			IList<Stock> tempsList = _stockRepository.Lire(); // lit la bdd
 
 			// injecte dans la liste
 			foreach (var stock in tempsList)
-				list.Add(stock);
+				list.Add(Map(stock, new DataStock()));
 
 			return list;
 		}
@@ -237,6 +237,9 @@ namespace Pata_WPF_Commerce.ViewModels
 				Stock stock = _stockRepository.LireId(achat.IdStock);
 				stock.QuantiteActuelle += achat.Quantite;
 				await _stockRepository.ModifierAsync(stock);
+
+				// modifie dans la datagrid
+				Stocks.First(item => item.Id == stock.Id).QuantiteActuelle = stock.QuantiteActuelle;
 			}
 
 			Facture();

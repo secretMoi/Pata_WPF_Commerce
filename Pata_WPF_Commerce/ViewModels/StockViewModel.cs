@@ -120,7 +120,7 @@ namespace Pata_WPF_Commerce.ViewModels
 
 		public void AdaptBackColor(DataGridRowEventArgs e)
 		{
-			if (((Stock)e.Row.DataContext).QuantiteMin >= ((Stock)e.Row.DataContext).QuantiteActuelle)
+			if (((Stock)e.Row.DataContext).QuantiteMin > ((Stock)e.Row.DataContext).QuantiteActuelle)
 				e.Row.Background = new SolidColorBrush(Color.FromRgb(255, 85, 66));
 		}
 
