@@ -114,6 +114,7 @@
     <Compile Include="ViewModels\BaseCommand.cs" />
     <Compile Include="ViewModels\BaseProperty.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
+    <Compile Include="ViewModels\DataBinding\DataAccueil.cs" />
     <Compile Include="ViewModels\DataBinding\DataAchat.cs" />
     <Compile Include="ViewModels\DataBinding\DataClient.cs" />
     <Compile Include="ViewModels\DataBinding\DataVente.cs" />
