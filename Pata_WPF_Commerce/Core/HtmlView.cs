@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Globalization;
+using System.IO;
 using System.Text;
 using Color = System.Windows.Media.Color;
 
@@ -8,10 +10,10 @@ namespace Pata_WPF_Commerce.Core
 	{
 		private StringBuilder _htmlCode;
 		private int _colonneActuelle;
+		private bool _footerIncluded;
 
-		public HtmlView(string titre, int nombreColonnes)
+		public HtmlView(string titre)
 		{
-			NombreColonnes = nombreColonnes;
 			GenerateHead(titre);
 		}
 
@@ -41,7 +43,7 @@ namespace Pata_WPF_Commerce.Core
 
 		public void GenerateColumn(params string[] data)
 		{
-			if (data.Length != NombreColonnes) return;
+			NombreColonnes += data.Length;
 
 			_htmlCode.Append("<tr>\r\n");
 
@@ -78,6 +80,8 @@ namespace Pata_WPF_Commerce.Core
 
 		public void GenerateFooter()
 		{
+			_footerIncluded = true;
+
 			_htmlCode.Append(
 				"</tr>\r\n\r\n" +
 				"</table>\r\n" +
@@ -86,8 +90,17 @@ namespace Pata_WPF_Commerce.Core
 			);
 		}
 
+		public string DateNow()
+		{
+			string date = DateTime.Now.ToString(CultureInfo.InvariantCulture).Replace(':', '_');
+			return date.Replace('/', '_');
+		}
+
 		public void SaveTo(string path, string file)
 		{
+			if(!_footerIncluded)
+				GenerateFooter();
+
 			if (!Directory.Exists(path))
 				Directory.CreateDirectory(path);
 
@@ -95,7 +108,16 @@ namespace Pata_WPF_Commerce.Core
 			File.WriteAllText(path + "/" + file + ".html", _htmlCode.ToString());
 		}
 
-		public string SourceCode => _htmlCode.ToString();
+		public string SourceCode
+		{
+			get
+			{
+				if (!_footerIncluded)
+					GenerateFooter();
+
+				return _htmlCode.ToString();
+			}
+		} 
 
 		public int NombreColonnes { get; set; }
 	}

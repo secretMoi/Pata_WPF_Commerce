@@ -10,6 +10,9 @@ using Database.Classes;
 using Pata_WPF_Commerce.Core;
 using Pata_WPF_Commerce.Repositories;
 using Pata_WPF_Commerce.ViewModels.DataBinding;
+using Pata_WPF_Commerce.Views;
+using Achat = Database.Classes.Achat;
+using Stock = Database.Classes.Stock;
 
 namespace Pata_WPF_Commerce.ViewModels
 {
@@ -237,13 +240,11 @@ namespace Pata_WPF_Commerce.ViewModels
 			}
 
 			Facture();
-
-			MessageBox.Show("Commande effectuée chez " + SelectedProvider.Nom);
 		}
 
 		private void Facture()
 		{
-			HtmlView html = new HtmlView("Commande", 4);
+			HtmlView html = new HtmlView("Commande");
 
 			html.GenerateColumn("Nom", "Quantité", "Prix unitaire", "Prix final"); // génère les colonnes
 
@@ -257,11 +258,10 @@ namespace Pata_WPF_Commerce.ViewModels
 				html.GenerateBody((item.Stock.PrixAchat * item.Quantite).ToString(CultureInfo.InvariantCulture));
 			}
 
-			html.GenerateFooter();
+			html.SaveTo("FactureFournisseur", $"facture_{SelectedProvider.Nom}_{html.DateNow()}");
 
-			string date = DateTime.Now.ToString(CultureInfo.InvariantCulture).Replace(':', '_');
-			date = date.Replace('/', '_');
-			html.SaveTo("FactureFournisseur", $"facture_{SelectedProvider.Nom}_{date}");
+			Html fenetre = new Html(html.SourceCode);
+			fenetre.ShowDialog();
 		}
 
 		private class Acheter
