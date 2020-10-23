@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -9,13 +10,16 @@ using Database.Classes;
 using Pata_WPF_Commerce.Core;
 using Pata_WPF_Commerce.Repositories;
 using Pata_WPF_Commerce.ViewModels.DataBinding;
+using Pata_WPF_Commerce.Views;
+using Stock = Database.Classes.Stock;
+using Vente = Database.Classes.Vente;
 
 namespace Pata_WPF_Commerce.ViewModels
 {
 	public class VenteViewModel : BaseProperty
 	{
 		private DataVente _itemInForm; // données bindée dans le formulaire
-		private Stock _selectedItemInDgv; // données dans la dgv
+		private DataStock _selectedItemInDgv; // données dans la dgv
 		private Client _selectedItemInComboBox; // données dans la combo box
 
 		private readonly StocksRepository _stockRepository = StocksRepository.Instance;
@@ -25,7 +29,7 @@ namespace Pata_WPF_Commerce.ViewModels
 
 		private readonly IList<Vendre> _acheter = new List<Vendre>(); // liste des éléments à acheter dans la rtb
 
-		public ObservableCollection<Stock> Stocks { get; set; } // données bindée dans la dgv
+		public ObservableCollection<DataStock> Stocks { get; set; } // données bindée dans la dgv
 		public ObservableCollection<Client> Clients { get; set; } // données bindée dans la dgv du client sélectionné
 
 		public DataVente ItemInForm // données bindées dans le formulaire
@@ -34,7 +38,7 @@ namespace Pata_WPF_Commerce.ViewModels
 			set => AssignField(ref _itemInForm, value, MethodBase.GetCurrentMethod().Name);
 		}
 
-		public Stock SelectedItem // élément sélectionné dans la dgv
+		public DataStock SelectedItem // élément sélectionné dans la dgv
 		{
 			get => _selectedItemInDgv;
 			set => AssignField(ref _selectedItemInDgv, value, MethodBase.GetCurrentMethod().Name);
@@ -63,14 +67,14 @@ namespace Pata_WPF_Commerce.ViewModels
 		 * <summary>Charge les items de la bdd pour hydrater la dgv</summary>
 		 * <returns>Retourne une liste d'éléments</returns>
 		 */
-		private ObservableCollection<Stock> LoadStocks()
+		private ObservableCollection<DataStock> LoadStocks()
 		{
-			ObservableCollection<Stock> list = new ObservableCollection<Stock>();
+			ObservableCollection<DataStock> list = new ObservableCollection<DataStock>();
 			IList<Stock> tempsList = _stockRepository.Lire(); // lit la bdd
 
 			// injecte dans la liste
 			foreach (var stock in tempsList)
-				list.Add(stock);
+				list.Add(Map(stock, new DataStock()));
 
 			return list;
 		}
@@ -175,8 +179,6 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		private FlowDocument GenerateDocument()
 		{
-			//if(_acheter.Count < 1) return Viewer.LastDocument;
-
 			Viewer viewer = new Viewer();
 			viewer.SetTitle($"{SelectedClient?.Nom} achète pour {SommeTotale()}");
 
@@ -221,7 +223,7 @@ namespace Pata_WPF_Commerce.ViewModels
 				}
 			}
 
-			// cée la commande
+			// crée la commande
 			CommandesVente commande = new CommandesVente()
 			{
 				IdClient = SelectedClient.Id,
@@ -246,9 +248,34 @@ namespace Pata_WPF_Commerce.ViewModels
 				Stock stock = _stockRepository.LireId(vente.IdStock);
 				stock.QuantiteActuelle -= vente.Quantite;
 				await _stockRepository.ModifierAsync(stock);
+
+				// modifie dans la datagrid
+				Stocks.First(item => item.Id == stock.Id).QuantiteActuelle = stock.QuantiteActuelle;
 			}
 
-			MessageBox.Show("Commande effectuée par " + SelectedClient.Nom);
+			Facture();
+		}
+
+		private void Facture()
+		{
+			HtmlView html = new HtmlView("Commande");
+
+			html.GenerateColumn("Nom", "Quantité", "Prix unitaire", "Prix final"); // génère les colonnes
+
+			// rempli les colonnes
+			// données tableau
+			foreach (var item in _acheter)
+			{
+				html.GenerateBody(item.Stock.Nom);
+				html.GenerateBody(item.Quantite.ToString());
+				html.GenerateBody(item.Stock.PrixAchat.ToString(CultureInfo.InvariantCulture));
+				html.GenerateBody((item.Stock.PrixAchat * item.Quantite).ToString(CultureInfo.InvariantCulture));
+			}
+
+			html.SaveTo("FactureClient", $"facture_{SelectedClient.Nom}_{html.DateNow()}");
+
+			Html fenetre = new Html(html.SourceCode);
+			fenetre.ShowDialog();
 		}
 
 		private class Vendre

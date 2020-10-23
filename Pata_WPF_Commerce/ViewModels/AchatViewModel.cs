@@ -177,8 +177,6 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		private FlowDocument GenerateDocument()
 		{
-			//if(_acheter.Count < 1) return Viewer.LastDocument;
-
 			Viewer viewer = new Viewer();
 			viewer.SetTitle($"Acheter chez {SelectedProvider?.Nom} pour {SommeTotale()}");
 
