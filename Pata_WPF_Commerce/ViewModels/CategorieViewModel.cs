@@ -11,7 +11,7 @@ namespace Pata_WPF_Commerce.ViewModels
 	public class CategorieViewModel : BaseProperty
 	{
 		private DataCategorie _itemInForm; // données bindée dans le formulaire
-		private CategorieComposant _selectedItem; // données du Fournisseur sélectionné dans la dgv
+		private DataCategorie _selectedItem; // données du Fournisseur sélectionné dans la dgv
 
 		private readonly CategoriesRepository _categoriesRepository = CategoriesRepository.Instance;
 
@@ -21,7 +21,7 @@ namespace Pata_WPF_Commerce.ViewModels
 			set => AssignField(ref _itemInForm, value, MethodBase.GetCurrentMethod().Name);
 		}
 
-		public CategorieComposant SelectedItem // données du Fournisseur sélectionné dans la dgv
+		public DataCategorie SelectedItem // données du Fournisseur sélectionné dans la dgv
 		{
 			get => _selectedItem;
 			set => AssignField(ref _selectedItem, value, MethodBase.GetCurrentMethod().Name);
@@ -37,7 +37,6 @@ namespace Pata_WPF_Commerce.ViewModels
 			ItemInForm = Map(Categories.FirstOrDefault(), ItemInForm); // injecte le premier Fournisseur trouvé
 
 			// bind les commandes au xaml
-			CommandeConfirm = new BaseCommand(Confirm);
 			CommandAdd = new BaseCommand(Add);
 			CommandModify = new BaseCommand(Modify);
 		}
@@ -62,12 +61,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		public void ChangedSelectedItem()
 		{
-			ItemInForm = Map(SelectedItem, ItemInForm);
-		}
-
-		public void Confirm()
-		{
-			ItemInForm.Nom = "coucou";
+			ItemInForm = Map(SelectedItem, new DataCategorie());
 		}
 
 		/**
@@ -78,10 +72,9 @@ namespace Pata_WPF_Commerce.ViewModels
 			// ajoute le nouveau fournisseur à la bdd
 			CategorieComposant model = new CategorieComposant();
 			model = Map(ItemInForm, model);
-			int res = await _categoriesRepository.AjouterAsync(model);
+			await _categoriesRepository.AjouterAsync(model);
 
 			// ajoute ce nouveau fournisseur à la dgv
-			model = await _categoriesRepository.LireIdAsync(res);
 			Categories.Add(Map(model, new DataCategorie()));
 		}
 
@@ -97,13 +90,10 @@ namespace Pata_WPF_Commerce.ViewModels
 			await _categoriesRepository.ModifierAsync(model); // ajoute à la bdd
 
 			// rafraichit la dgv
-			int index = Categories.IndexOf(Map(SelectedItem, new DataCategorie()));
-			Categories[index] = Map(model, new DataCategorie());
+			Categories.First(item => item.Id == model.Id).Nom = model.Nom;
 		}
 
 		#region Commands
-
-		public BaseCommand CommandeConfirm { get; set; }
 		public BaseCommand CommandAdd { get; set; }
 		public BaseCommand CommandModify { get; set; }
 

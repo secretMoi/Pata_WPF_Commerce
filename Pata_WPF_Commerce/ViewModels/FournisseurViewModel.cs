@@ -11,7 +11,7 @@ namespace Pata_WPF_Commerce.ViewModels
 	public class FournisseurViewModel : BaseProperty
 	{
 		private DataFournisseur _itemInForm; // données bindée dans le formulaire
-		private Fournisseur _selectedItem; // données du Fournisseur sélectionné dans la dgv
+		private DataFournisseur _selectedItem; // données du Fournisseur sélectionné dans la dgv
 
 		public DataFournisseur ItemInForm // données bindée dans le formulaire
 		{
@@ -19,7 +19,7 @@ namespace Pata_WPF_Commerce.ViewModels
 			set => AssignField(ref _itemInForm, value, MethodBase.GetCurrentMethod().Name);
 		}
 
-		public Fournisseur SelectedItem // données du Fournisseur sélectionné dans la dgv
+		public DataFournisseur SelectedItem // données du Fournisseur sélectionné dans la dgv
 		{
 			get => _selectedItem;
 			set => AssignField(ref _selectedItem, value, MethodBase.GetCurrentMethod().Name);
@@ -59,7 +59,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		public void ChangedSelectedItem()
 		{
-			ItemInForm = Map(SelectedItem, ItemInForm);
+			ItemInForm = Map(SelectedItem, new DataFournisseur());
 		}
 
 		public void Confirm()
@@ -73,13 +73,12 @@ namespace Pata_WPF_Commerce.ViewModels
 		private async void Add()
 		{
 			// ajoute le nouveau fournisseur à la bdd
-			Fournisseur fournisseur = new Fournisseur();
-			fournisseur = Map(ItemInForm, fournisseur);
-			int res = await FournisseursRepository.Instance.AjouterAsync(fournisseur);
+			Fournisseur model = new Fournisseur();
+			model = Map(ItemInForm, model);
+			await FournisseursRepository.Instance.AjouterAsync(model);
 
 			// ajoute ce nouveau fournisseur à la dgv
-			fournisseur = await FournisseursRepository.Instance.LireIdAsync(res);
-			Fournisseurs.Add(Map(fournisseur, new DataFournisseur()));
+			Fournisseurs.Add(Map(model, new DataFournisseur()));
 		}
 
 		/**
@@ -88,14 +87,13 @@ namespace Pata_WPF_Commerce.ViewModels
 		private async void Modify()
 		{
 			// map le Fournisseur entre le formulaire et le model
-			Fournisseur fournisseur = new Fournisseur();
-			fournisseur = Map(ItemInForm, fournisseur);
+			Fournisseur model = new Fournisseur();
+			model = Map(ItemInForm, model);
 
-			await FournisseursRepository.Instance.ModifierAsync(fournisseur); // ajoute à la bdd
+			await FournisseursRepository.Instance.ModifierAsync(model); // ajoute à la bdd
 
 			// rafraichit la dgv
-			int index = Fournisseurs.IndexOf(Map(SelectedItem, new DataFournisseur()));
-			Fournisseurs[index] = Map(fournisseur, new DataFournisseur());
+			Fournisseurs.First(item => item.Id == model.Id).Nom = model.Nom;
 		}
 
 		#region Commands
