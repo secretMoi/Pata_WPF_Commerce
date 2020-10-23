@@ -114,6 +114,7 @@
     <Compile Include="ViewModels\AchatViewModel.cs" />
     <Compile Include="ViewModels\BaseCommand.cs" />
     <Compile Include="ViewModels\BaseProperty.cs" />
+    <Compile Include="ViewModels\CategorieViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\DataBinding\DataAccueil.cs" />
     <Compile Include="ViewModels\DataBinding\DataAchat.cs" />
@@ -125,6 +126,9 @@
     <Compile Include="ViewModels\VenteViewModel.cs" />
     <Compile Include="Views\Achat.xaml.cs">
       <DependentUpon>Achat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Categories.xaml.cs">
+      <DependentUpon>Categories.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Fournisseurs.xaml.cs">
       <DependentUpon>Fournisseurs.xaml</DependentUpon>
@@ -143,6 +147,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Achat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Categories.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

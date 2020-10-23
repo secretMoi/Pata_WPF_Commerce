@@ -33,6 +33,7 @@ namespace Pata_WPF_Commerce.ViewModels
 			CommandAchats = new BaseCommand(Achats);
 			CommandVentes = new BaseCommand(Ventes);
 			CommandCheckStock = new BaseCommand(CheckStock);
+			CommandCategories = new BaseCommand(Categories);
 		}
 
 		/**
@@ -112,11 +113,18 @@ namespace Pata_WPF_Commerce.ViewModels
 			fenetre.ShowDialog();
 		}
 
+		private void Categories()
+		{
+			Categories fenetre = new Categories();
+			fenetre.ShowDialog();
+		}
+
 		public BaseCommand CommandClients { get; set; }
 		public BaseCommand CommandFournisseurs { get; set; }
 		public BaseCommand CommandStocks { get; set; }
 		public BaseCommand CommandAchats { get; set; }
 		public BaseCommand CommandVentes { get; set; }
 		public BaseCommand CommandCheckStock { get; set; }
+		public BaseCommand CommandCategories { get; set; }
 	}
 }

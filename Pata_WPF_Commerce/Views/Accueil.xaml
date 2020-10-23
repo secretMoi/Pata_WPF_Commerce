@@ -20,12 +20,17 @@
 					<MenuItem Header="Achat" Command="{Binding CommandAchats, Mode=OneWay}" />
 					<MenuItem Header="Liste"  Command="{Binding CommandFournisseurs, Mode=OneWay}" />
 				</MenuItem>
+
 				<MenuItem Header="_Clients">
 					<MenuItem Header="Vendre"  Command="{Binding CommandVentes, Mode=OneWay}" />
 					<MenuItem Header="Liste"  Command="{Binding CommandClients, Mode=OneWay}" />
 				</MenuItem>
 
-				<MenuItem Header="_Stock" Command="{Binding CommandStocks, Mode=OneWay}" />
+                <MenuItem Header="_Stock">
+                    <MenuItem Header="Catégories"  Command="{Binding CommandCategories, Mode=OneWay}" />
+                    <MenuItem Header="Assemblage"  Command="{Binding CommandAssemblage, Mode=OneWay}" />
+                    <MenuItem Header="Liste"  Command="{Binding CommandStocks, Mode=OneWay}" />
+                </MenuItem>
 			</Menu>
 		</DockPanel>
 
