@@ -36,7 +36,7 @@ namespace Pata_WPF_Commerce.Core
 		}
 
 		// converti la classe couleur en code couleur hexa
-		public static string ColorToHex(Color color)
+		private static string ColorToHex(Color color)
 		{
 			return "#" + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
 		}

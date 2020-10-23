@@ -245,7 +245,7 @@ namespace Pata_WPF_Commerce.ViewModels
 
 		private void Facture()
 		{
-			HtmlView html = new HtmlView("Commande");
+			HtmlView html = new HtmlView($"Commande chez {SelectedProvider.Nom} pour {SommeTotale()}");
 
 			html.GenerateColumn("Nom", "Quantité", "Prix unitaire", "Prix final"); // génère les colonnes
 
