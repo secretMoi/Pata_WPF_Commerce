@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Database.Classes;
@@ -18,8 +17,10 @@ namespace Pata_WPF_Commerce.ViewModels
 	{
 		private DataStock _itemInForm; // données bindée dans le formulaire
 		private Stock _selectedItemInDgv; // données du client sélectionné dans la dgv
-		private CategorieComposant _selectedItemInComboBox; // données dans la combo box
+		private DataCategorie _selectedItemInComboBox; // données dans la combo box
+
 		private readonly StocksRepository _repository = StocksRepository.Instance;
+		private readonly CategoriesRepository _categoriesRepository = CategoriesRepository.Instance;
 
 		public DataStock ItemInForm // données bindée dans le formulaire
 		{
@@ -33,25 +34,25 @@ namespace Pata_WPF_Commerce.ViewModels
 			set => AssignField(ref _selectedItemInDgv, value, MethodBase.GetCurrentMethod().Name);
 		}
 
-		public CategorieComposant SelectedCategory // élément sélectionné dans la combo box
+		public DataCategorie SelectedCategory // élément sélectionné dans la combo box
 		{
 			get => _selectedItemInComboBox;
 			set => AssignField(ref _selectedItemInComboBox, value, MethodBase.GetCurrentMethod().Name);
 		}
 
-		public ObservableCollection<CategorieComposant> Categories { get; set; } // données bindée dans la dgv du client sélectionné
+		public ObservableCollection<DataCategorie> Categories { get; set; } // données bindée dans la dgv du client sélectionné
 
 		public ObservableCollection<Stock> Stocks { get; set; } // données bindée dans la dgv du client sélectionné
 
 		public StockViewModel()
 		{
 			Stocks = LoadStocks(); // récupère les stocks dans la bdd
+			Categories = LoadCategories(); // récupère les Categories dans la bdd
 
 			ItemInForm = Map(Stocks.FirstOrDefault(), ItemInForm); // injecte le premier stock trouvé
 
 			// bind les commandes au xaml
 			CommandAdd = new BaseCommand(Add);
-			CommandDelete = new BaseCommand(Delete);
 			CommandModify = new BaseCommand(Modify);
 			CommandHtml = new BaseCommand(HtmlWindow);
 		}
@@ -68,29 +69,6 @@ namespace Pata_WPF_Commerce.ViewModels
 
 			// ajoute ce nouveau client à la dgv
 			Stocks.Add(model);
-		}
-
-		/**
-		 * <summary>Supprime un élément de la dgv et la bdd</summary>
-		 */
-		private async void Delete()
-		{
-			// todo supprimer ou gérer les clé étrangères
-			if (SelectedItem == null) return; // si aucun n'est sélectionné on quitte
-
-			// confirmation de suppression
-			var result = MessageBox.Show(
-				$"Voulez-vous vraiment supprimer le stock {SelectedItem.Nom} ?",
-				"Suppression", MessageBoxButton.YesNo
-			);
-
-			if (result == MessageBoxResult.No) return;
-
-			// supprime l'item de la bdd
-			await _repository.SupprimerAsync(SelectedItem.Id);
-
-			// supprime l'item de la dgv
-			Stocks.Remove(SelectedItem);
 		}
 
 		/**
@@ -148,9 +126,26 @@ namespace Pata_WPF_Commerce.ViewModels
 			return list;
 		}
 
-		public void ChangedSelectedClient()
+		/**
+		 * <summary>Charge les items de la bdd pour hydrater la combobox</summary>
+		 * <returns>Retourne une liste d'éléments</returns>
+		 */
+		private ObservableCollection<DataCategorie> LoadCategories()
+		{
+			ObservableCollection<DataCategorie> list = new ObservableCollection<DataCategorie>();
+			IList<CategorieComposant> tempsList = _categoriesRepository.Lire(); // lit la bdd
+
+			// injecte dans la liste
+			foreach (var element in tempsList)
+				list.Add(Map(element, new DataCategorie()));
+
+			return list;
+		}
+
+		public void ChangedSelectedItem()
 		{
 			ItemInForm = Map(SelectedItem, ItemInForm);
+			SelectedCategory = Categories.First(item => item.Id == SelectedItem.Categorie);
 		}
 
 		public void AdaptBackColor(DataGridRowEventArgs e)
@@ -160,7 +155,6 @@ namespace Pata_WPF_Commerce.ViewModels
 		}
 
 		public BaseCommand CommandAdd { get; set; }
-		public BaseCommand CommandDelete { get; set; }
 		public BaseCommand CommandModify { get; set; }
 		public BaseCommand CommandHtml { get; set; }
 	}

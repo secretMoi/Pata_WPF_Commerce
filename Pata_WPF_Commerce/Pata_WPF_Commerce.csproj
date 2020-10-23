@@ -117,6 +117,7 @@
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\DataBinding\DataAccueil.cs" />
     <Compile Include="ViewModels\DataBinding\DataAchat.cs" />
+    <Compile Include="ViewModels\DataBinding\DataCategorie.cs" />
     <Compile Include="ViewModels\DataBinding\DataClient.cs" />
     <Compile Include="ViewModels\DataBinding\DataFournisseur.cs" />
     <Compile Include="ViewModels\DataBinding\DataVente.cs" />

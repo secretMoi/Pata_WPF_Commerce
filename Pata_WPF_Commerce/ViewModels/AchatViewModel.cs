@@ -78,7 +78,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		}
 
 		/**
-		 * <summary>Charge les items de la bdd pour hydrater la dgv</summary>
+		 * <summary>Charge les items de la bdd pour hydrater la combobox</summary>
 		 * <returns>Retourne une liste d'éléments</returns>
 		 */
 		private ObservableCollection<Fournisseur> LoadFournisseurs()
