@@ -105,6 +105,7 @@
     <Compile Include="Repositories\ClientsRepository.cs" />
     <Compile Include="Repositories\CommandesAchatsRepository.cs" />
     <Compile Include="Repositories\CommandesVentesRepository.cs" />
+    <Compile Include="Repositories\CategoriesRepository.cs" />
     <Compile Include="Repositories\DetailAchatsRepository.cs" />
     <Compile Include="Repositories\DetailVentesRepository.cs" />
     <Compile Include="Repositories\FournisseursRepository.cs" />

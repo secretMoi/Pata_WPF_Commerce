@@ -25,8 +25,9 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -48,6 +49,11 @@
 
             <TextBlock Name="TextBlockPrixVente" Text="Prix de vente" Grid.Row="4" Grid.Column="0" />
             <TextBox Name="TextBoxPrixVente" Grid.Row="4" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.PrixVente, Mode=TwoWay}"/>
+
+            <TextBlock Name="TextBlockCategorie" Text="Catégorie" Grid.Row="5" Grid.Column="0" />
+            <ComboBox Grid.Row="5" Grid.Column="1" Margin="3"
+                      ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+                      DisplayMemberPath="Nom" SelectedValuePath="Nom" />
         </Grid>
 
         <DataGrid Name="DataGridClients" ItemsSource="{Binding Path=Stocks}" Grid.Row="2" Grid.Column="0"

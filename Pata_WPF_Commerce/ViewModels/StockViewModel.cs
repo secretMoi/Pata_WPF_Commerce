@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Database.Classes;
 using Pata_WPF_Commerce.Core;
 using Pata_WPF_Commerce.Repositories;
 using Pata_WPF_Commerce.ViewModels.DataBinding;
@@ -18,6 +18,7 @@ namespace Pata_WPF_Commerce.ViewModels
 	{
 		private DataStock _itemInForm; // données bindée dans le formulaire
 		private Stock _selectedItemInDgv; // données du client sélectionné dans la dgv
+		private CategorieComposant _selectedItemInComboBox; // données dans la combo box
 		private readonly StocksRepository _repository = StocksRepository.Instance;
 
 		public DataStock ItemInForm // données bindée dans le formulaire
@@ -31,6 +32,14 @@ namespace Pata_WPF_Commerce.ViewModels
 			get => _selectedItemInDgv;
 			set => AssignField(ref _selectedItemInDgv, value, MethodBase.GetCurrentMethod().Name);
 		}
+
+		public CategorieComposant SelectedCategory // élément sélectionné dans la combo box
+		{
+			get => _selectedItemInComboBox;
+			set => AssignField(ref _selectedItemInComboBox, value, MethodBase.GetCurrentMethod().Name);
+		}
+
+		public ObservableCollection<CategorieComposant> Categories { get; set; } // données bindée dans la dgv du client sélectionné
 
 		public ObservableCollection<Stock> Stocks { get; set; } // données bindée dans la dgv du client sélectionné
 
