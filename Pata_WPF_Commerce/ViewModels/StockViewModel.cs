@@ -6,8 +6,10 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Pata_WPF_Commerce.Core;
 using Pata_WPF_Commerce.Repositories;
 using Pata_WPF_Commerce.ViewModels.DataBinding;
+using Pata_WPF_Commerce.Views;
 using Stock = Database.Classes.Stock;
 
 namespace Pata_WPF_Commerce.ViewModels
@@ -42,6 +44,7 @@ namespace Pata_WPF_Commerce.ViewModels
 			CommandAdd = new BaseCommand(Add);
 			CommandDelete = new BaseCommand(Delete);
 			CommandModify = new BaseCommand(Modify);
+			CommandHtml = new BaseCommand(HtmlWindow);
 		}
 
 		/**
@@ -98,6 +101,29 @@ namespace Pata_WPF_Commerce.ViewModels
 		}
 
 		/**
+		 * <summary>Affiche l'état des stocks dans une vue html</summary>
+		 */
+		private void HtmlWindow()
+		{
+			HtmlView html = new HtmlView("Etat des stocks");
+
+			html.GenerateColumn("Nom", "Quantité actuelle", "Quantité minimale", "Prix de vente"); // génère les colonnes
+
+			// rempli les colonnes
+			// données tableau
+			foreach (var item in Stocks)
+			{
+				html.GenerateBody(item.Nom);
+				html.GenerateBody(item.QuantiteActuelle.ToString());
+				html.GenerateBody(item.QuantiteMin.ToString());
+				html.GenerateBody(Money.Display(item.PrixVente));
+			}
+
+			Html fenetre = new Html(html.SourceCode);
+			fenetre.ShowDialog();
+		}
+
+		/**
 		 * <summary>Charge les items de la bdd pour hydrater la dgv</summary>
 		 * <returns>Retourne une liste d'éléments</returns>
 		 */
@@ -127,6 +153,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		public BaseCommand CommandAdd { get; set; }
 		public BaseCommand CommandDelete { get; set; }
 		public BaseCommand CommandModify { get; set; }
+		public BaseCommand CommandHtml { get; set; }
 	}
 }
 

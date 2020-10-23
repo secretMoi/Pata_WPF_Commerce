@@ -59,13 +59,14 @@
                 <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*" />
                 <DataGridTextColumn Header="Quantité actuelle" Binding="{Binding QuantiteActuelle}" Width="*" />
                 <DataGridTextColumn Header="Quantité minimale" Binding="{Binding QuantiteMin}" Width="*" />
-                <DataGridTextColumn Header="Prix" Binding="{Binding PrixVente}" Width="*" />
+                <DataGridTextColumn Header="Prix de vente" Binding="{Binding PrixVente}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" Margin="34, 3">
             <Button Name="ButtonAjouter" Content="Ajouter" Margin="3" Padding="3" Command="{Binding CommandAdd}"/>
             <Button Name="ButtonModify" Content="Modifier" Margin="3" Padding="3" Command="{Binding CommandModify}"/>
+            <Button Name="ButtonHtml" Content="Vue HTML" Margin="3" Padding="3" Command="{Binding CommandHtml}"/>
         </StackPanel>
     </Grid>
 </Window>

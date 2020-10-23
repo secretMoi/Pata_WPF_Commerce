@@ -243,6 +243,9 @@ namespace Pata_WPF_Commerce.ViewModels
 			Facture();
 		}
 
+		/**
+		 * <summary>Génère une facture en HTML et affiche une fenêtre montrant le résultat</summary>
+		 */
 		private void Facture()
 		{
 			HtmlView html = new HtmlView($"Commande chez {SelectedProvider.Nom} pour {SommeTotale()}");
