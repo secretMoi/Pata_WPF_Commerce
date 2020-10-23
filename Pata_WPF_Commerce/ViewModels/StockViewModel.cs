@@ -16,7 +16,7 @@ namespace Pata_WPF_Commerce.ViewModels
 	public class StockViewModel : BaseProperty
 	{
 		private DataStock _itemInForm; // données bindée dans le formulaire
-		private Stock _selectedItemInDgv; // données du client sélectionné dans la dgv
+		private Stock _selectedItemInDgv; // données du stock sélectionné dans la dgv
 		private DataCategorie _selectedItemInComboBox; // données dans la combo box
 
 		private readonly StocksRepository _repository = StocksRepository.Instance;
@@ -28,7 +28,7 @@ namespace Pata_WPF_Commerce.ViewModels
 			set => AssignField(ref _itemInForm, value, MethodBase.GetCurrentMethod().Name);
 		}
 
-		public Stock SelectedItem // données du client sélectionné dans la dgv
+		public Stock SelectedItem // données du stock sélectionné dans la dgv
 		{
 			get => _selectedItemInDgv;
 			set => AssignField(ref _selectedItemInDgv, value, MethodBase.GetCurrentMethod().Name);
@@ -40,9 +40,9 @@ namespace Pata_WPF_Commerce.ViewModels
 			set => AssignField(ref _selectedItemInComboBox, value, MethodBase.GetCurrentMethod().Name);
 		}
 
-		public ObservableCollection<DataCategorie> Categories { get; set; } // données bindée dans la dgv du client sélectionné
+		public ObservableCollection<DataCategorie> Categories { get; set; } // données bindée dans la dgv du stock sélectionné
 
-		public ObservableCollection<Stock> Stocks { get; set; } // données bindée dans la dgv du client sélectionné
+		public ObservableCollection<Stock> Stocks { get; set; } // données bindée dans la dgv du stock sélectionné
 
 		public StockViewModel()
 		{
@@ -62,12 +62,14 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		private async void Add()
 		{
-			// ajoute le nouveau client à la bdd
+			// ajoute le nouveau stock à la bdd
 			Stock model = new Stock();
 			model = Map(ItemInForm, model);
+			model.Categorie = SelectedCategory.Id;
+
 			await _repository.AjouterAsync(model);
 
-			// ajoute ce nouveau client à la dgv
+			// ajoute ce nouveau stock à la dgv
 			Stocks.Add(model);
 		}
 
@@ -76,9 +78,10 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		private async void Modify()
 		{
-			// map le client entre le formulaire et le model
+			// map le stock entre le formulaire et le model
 			Stock model = new Stock();
 			model = Map(ItemInForm, model);
+			model.Categorie = SelectedCategory.Id;
 
 			await _repository.ModifierAsync(model); // ajoute à la bdd
 
@@ -142,12 +145,20 @@ namespace Pata_WPF_Commerce.ViewModels
 			return list;
 		}
 
+		/**
+		 * <summary>Actions à effectuer lors du changement de sélection dans la dgv</summary>
+		 */
 		public void ChangedSelectedItem()
 		{
 			ItemInForm = Map(SelectedItem, ItemInForm);
 			SelectedCategory = Categories.First(item => item.Id == SelectedItem.Categorie);
 		}
 
+
+		/**
+		 * <summary>Change la couleur de fond des stocks n'étant pas en quantité suffisante</summary>
+		 * <param name="e">Contient les information de la ligne de la datagrid</param>
+		 */
 		public void AdaptBackColor(DataGridRowEventArgs e)
 		{
 			if (((Stock)e.Row.DataContext).QuantiteMin > ((Stock)e.Row.DataContext).QuantiteActuelle)
