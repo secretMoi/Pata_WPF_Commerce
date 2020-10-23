@@ -10,7 +10,7 @@ namespace Database.Classes
 		{
 		}
 
-		public Stock(int id, string nom, int quantiteActuelle, int quantiteMin, decimal prixAchat, decimal prixVente)
+		public Stock(int id, string nom, int quantiteActuelle, int quantiteMin, decimal prixAchat, decimal prixVente, int categorie)
 		{
 			Id = id;
 			Nom = nom;
@@ -18,6 +18,7 @@ namespace Database.Classes
 			QuantiteMin = quantiteMin;
 			PrixAchat = prixAchat;
 			PrixVente = prixVente;
+			Categorie = categorie;
 		}
 
 		public override List<(string, Type)> GetChamps()
@@ -30,6 +31,7 @@ namespace Database.Classes
 				_champs.Add(("quantiteMin", typeof(int)));
 				_champs.Add(("prix_achat", typeof(decimal)));
 				_champs.Add(("prix_vente", typeof(decimal)));
+				_champs.Add(("categorie", typeof(int)));
 			}
 
 			return _champs;
@@ -51,5 +53,7 @@ namespace Database.Classes
 		public decimal PrixAchat { get; set; }
 
 		public decimal PrixVente { get; set; }
+
+		public int Categorie { get; set; }
 	}
 }
