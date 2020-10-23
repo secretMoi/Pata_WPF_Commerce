@@ -28,6 +28,7 @@ namespace Pata_WPF_Commerce.ViewModels
 
 			// bind les commandes au xaml
 			CommandClients = new BaseCommand(Clients);
+			CommandFournisseurs = new BaseCommand(Fournisseurs);
 			CommandStocks = new BaseCommand(Stocks);
 			CommandAchats = new BaseCommand(Achats);
 			CommandVentes = new BaseCommand(Ventes);
@@ -87,6 +88,12 @@ namespace Pata_WPF_Commerce.ViewModels
 			fenetre.ShowDialog();
 		}
 
+		public void Fournisseurs()
+		{
+			Fournisseurs fenetre = new Fournisseurs();
+			fenetre.ShowDialog();
+		}
+
 		private void Stocks()
 		{
 			Stock fenetre = new Stock();
@@ -106,6 +113,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		}
 
 		public BaseCommand CommandClients { get; set; }
+		public BaseCommand CommandFournisseurs { get; set; }
 		public BaseCommand CommandStocks { get; set; }
 		public BaseCommand CommandAchats { get; set; }
 		public BaseCommand CommandVentes { get; set; }

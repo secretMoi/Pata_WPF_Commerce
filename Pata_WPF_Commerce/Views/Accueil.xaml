@@ -1,49 +1,50 @@
 ﻿<Window x:Class="Pata_WPF_Commerce.Views.Accueil"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        xmlns:viewModels="clr-namespace:Pata_WPF_Commerce.ViewModels"
-        d:DataContext="{d:DesignInstance viewModels:AccueilViewModel, IsDesignTimeCreatable=True}"
-        Title="Accueil" Height="450" Width="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		mc:Ignorable="d"
+		xmlns:viewModels="clr-namespace:Pata_WPF_Commerce.ViewModels"
+		d:DataContext="{d:DesignInstance viewModels:AccueilViewModel, IsDesignTimeCreatable=True}"
+		Title="Accueil" Height="450" Width="800">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
 
-        <DockPanel>
-            <Menu DockPanel.Dock="Top">
-                <MenuItem Header="_Fournisseurs">
-                    <MenuItem Header="Achat" Command="{Binding CommandAchats, Mode=OneWay}" />
-                </MenuItem>
-                <MenuItem Header="_Clients">
-                    <MenuItem Header="Vendre"  Command="{Binding CommandVentes, Mode=OneWay}" />
-                    <MenuItem Header="Liste"  Command="{Binding CommandClients, Mode=OneWay}" />
-                </MenuItem>
+		<DockPanel>
+			<Menu DockPanel.Dock="Top">
+				<MenuItem Header="_Fournisseurs">
+					<MenuItem Header="Achat" Command="{Binding CommandAchats, Mode=OneWay}" />
+					<MenuItem Header="Liste"  Command="{Binding CommandFournisseurs, Mode=OneWay}" />
+				</MenuItem>
+				<MenuItem Header="_Clients">
+					<MenuItem Header="Vendre"  Command="{Binding CommandVentes, Mode=OneWay}" />
+					<MenuItem Header="Liste"  Command="{Binding CommandClients, Mode=OneWay}" />
+				</MenuItem>
 
-                <MenuItem Header="_Stock" Command="{Binding CommandStocks, Mode=OneWay}" />
-            </Menu>
-        </DockPanel>
+				<MenuItem Header="_Stock" Command="{Binding CommandStocks, Mode=OneWay}" />
+			</Menu>
+		</DockPanel>
 
-        <Button Grid.Row="1" Content="Vérifier les stocks" Command="{Binding CommandCheckStock, Mode=OneWay}" />
+		<Button Grid.Row="1" Content="Vérifier les stocks" Command="{Binding CommandCheckStock, Mode=OneWay}" />
 
-        <Grid Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+		<Grid Row="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
 
-            <TextBox Text="Chiffre d'affaire hebdomadaire : " Grid.Row="0" Grid.Column="0" />
-            <TextBox Text="{Binding Item.ChiffreAffaire}" Grid.Row="0" Grid.Column="1" />
-        </Grid>
+			<TextBox Text="Chiffre d'affaire hebdomadaire : " Grid.Row="0" Grid.Column="0" />
+			<TextBox Text="{Binding Item.ChiffreAffaire}" Grid.Row="0" Grid.Column="1" />
+		</Grid>
 
-    </Grid>
+	</Grid>
 </Window>
