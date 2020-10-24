@@ -47,8 +47,8 @@ namespace Pata_WPF_Commerce.ViewModels
 
 		public StockViewModel()
 		{
-			Stocks = LoadStocks(); // récupère les stocks dans la bdd
 			Categories = LoadCategories(); // récupère les Categories dans la bdd
+			Stocks = LoadStocks(); // récupère les stocks dans la bdd
 
 			ItemInForm = Stocks.FirstOrDefault(); // injecte le premier stock trouvé
 			SelectedCategory = Categories.First(item => item.Id == ItemInForm.Categorie);
@@ -72,11 +72,13 @@ namespace Pata_WPF_Commerce.ViewModels
 
 			// ajoute le nouveau stock à la bdd
 			Stock model = Map(ItemInForm, new Stock());
+			model.Categorie = SelectedCategory.Id;
 
 			await _repository.AjouterAsync(model);
 
 			// ajoute ce nouveau stock à la dgv
 			Stocks.Add(Map(model, new DataStock()));
+			Stocks.Last(stock => stock.Id == model.Id).DataCategorie = _categoriesRepository.LireId(model.Categorie);
 		}
 
 		/**
@@ -92,8 +94,15 @@ namespace Pata_WPF_Commerce.ViewModels
 
 			// map le stock entre le formulaire et le model
 			Stock model = ConvertToModel(ItemInForm);
+			model.Categorie = SelectedCategory.Id;
 
 			await _repository.ModifierAsync(model); // ajoute à la bdd
+
+			var found = Stocks.FirstOrDefault(stock => stock.Id == model.Id);
+			int i = Stocks.IndexOf(found);
+			Stocks[i] = ItemInForm;
+
+			Stocks[i].DataCategorie = _categoriesRepository.LireId(model.Categorie);
 		}
 
 		/**
@@ -158,7 +167,11 @@ namespace Pata_WPF_Commerce.ViewModels
 
 			// injecte dans la liste
 			foreach (var stock in tempsList)
-				list.Add(Map(stock, new DataStock()));
+			{
+				DataStock dataStock = Map(stock, new DataStock());
+				dataStock.DataCategorie = _categoriesRepository.LireId(dataStock.Categorie);
+				list.Add(dataStock);
+			}
 
 			return list;
 		}
@@ -184,7 +197,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		public void ChangedSelectedItem()
 		{
-			ItemInForm = SelectedItem;
+			ItemInForm = Map(SelectedItem, new DataStock());
 			SelectedCategory = Categories.First(item => item.Id == SelectedItem.Categorie);
 		}
 

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Database.Classes;
 
 namespace Pata_WPF_Commerce.ViewModels.DataBinding
 {
@@ -9,6 +10,7 @@ namespace Pata_WPF_Commerce.ViewModels.DataBinding
 		private int _quantiteActuelle, _quantiteMin;
 		private decimal _prixAchat, _prixVente;
 		private int _categorie;
+		private CategorieComposant _dataCategorie;
 
 		public int Id
 		{
@@ -50,6 +52,12 @@ namespace Pata_WPF_Commerce.ViewModels.DataBinding
 		{
 			get => _categorie;
 			set => AssignField(ref _categorie, value, MethodBase.GetCurrentMethod().Name);
+		}
+
+		public CategorieComposant DataCategorie
+		{
+			get => _dataCategorie;
+			set => AssignField(ref _dataCategorie, value, MethodBase.GetCurrentMethod().Name);
 		}
 	}
 }
