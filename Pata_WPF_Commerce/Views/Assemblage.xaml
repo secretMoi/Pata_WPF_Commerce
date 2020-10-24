@@ -105,8 +105,8 @@
 			<DataGrid ItemsSource="{Binding Path=ItemsList}" Margin="50,0"
 					  IsReadOnly="True" AutoGenerateColumns="False" Width="230">
 				<DataGrid.Columns>
-					<DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*" />
-					<DataGridTextColumn Header="Prix" Binding="{Binding PrixVente}" Width="Auto" />
+					<DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="2*" />
+					<DataGridTextColumn Header="Prix" Binding="{Binding PrixVente}" Width="*" />
 				</DataGrid.Columns>
 			</DataGrid>
 		</StackPanel>

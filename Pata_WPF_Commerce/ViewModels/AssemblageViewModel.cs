@@ -7,7 +7,7 @@ using Database.Classes;
 using Pata_WPF_Commerce.Core;
 using Pata_WPF_Commerce.Repositories;
 using Pata_WPF_Commerce.ViewModels.DataBinding;
-//todo list des composants + prix
+
 namespace Pata_WPF_Commerce.ViewModels
 {
 	public class AssemblageViewModel : BaseProperty    
@@ -64,55 +64,91 @@ namespace Pata_WPF_Commerce.ViewModels
 		public Stock SelectedProcesseur // processeur sélectionné dans la combo box
 		{
 			get => _selectedProcesseur;
-			set => AssignField(ref _selectedProcesseur, value, MethodBase.GetCurrentMethod().Name);
+			set
+			{
+				AssignField(ref _selectedProcesseur, value, MethodBase.GetCurrentMethod().Name);
+				UpdatePrice(SelectedProcesseur);
+			}
 		}
 
 		public Stock SelectedCarteMere // item sélectionné dans la combo box
 		{
 			get => _selectedCarteMere;
-			set => AssignField(ref _selectedCarteMere, value, MethodBase.GetCurrentMethod().Name);
+			set
+			{
+				AssignField(ref _selectedCarteMere, value, MethodBase.GetCurrentMethod().Name);
+				UpdatePrice(SelectedCarteMere);
+			}
 		}
 
 		public Stock SelectedRam // item sélectionné dans la combo box
 		{
 			get => _selectedRam;
-			set => AssignField(ref _selectedRam, value, MethodBase.GetCurrentMethod().Name);
+			set
+			{
+				AssignField(ref _selectedRam, value, MethodBase.GetCurrentMethod().Name);
+				UpdatePrice(SelectedRam);
+			}
 		}
 
 		public Stock SelectedCarteGraphique // item sélectionné dans la combo box
 		{
 			get => _selectedCarteGraphique;
-			set => AssignField(ref _selectedCarteGraphique, value, MethodBase.GetCurrentMethod().Name);
+			set
+			{
+				AssignField(ref _selectedCarteGraphique, value, MethodBase.GetCurrentMethod().Name);
+				UpdatePrice(SelectedCarteGraphique);
+			}
 		}
 
 		public Stock SelectedDisqueDur1 // item sélectionné dans la combo box
 		{
 			get => _selectedDisqueDur1;
-			set => AssignField(ref _selectedDisqueDur1, value, MethodBase.GetCurrentMethod().Name);
+			set
+			{
+				AssignField(ref _selectedDisqueDur1, value, MethodBase.GetCurrentMethod().Name);
+				UpdatePrice(SelectedDisqueDur1);
+			}
 		}
 
 		public Stock SelectedDisqueDur2 // item sélectionné dans la combo box
 		{
 			get => _selectedDisqueDur2;
-			set => AssignField(ref _selectedDisqueDur2, value, MethodBase.GetCurrentMethod().Name);
+			set
+			{
+				AssignField(ref _selectedDisqueDur2, value, MethodBase.GetCurrentMethod().Name);
+				UpdatePrice(SelectedDisqueDur2);
+			}
 		}
 
 		public Stock SelectedBoitier // item sélectionné dans la combo box
 		{
 			get => _selectedBoitier;
-			set => AssignField(ref _selectedBoitier, value, MethodBase.GetCurrentMethod().Name);
+			set
+			{
+				AssignField(ref _selectedBoitier, value, MethodBase.GetCurrentMethod().Name);
+				UpdatePrice(SelectedBoitier);
+			}
 		}
 
 		public Stock SelectedAlimentation // item sélectionné dans la combo box
 		{
 			get => _selectedAlimenation;
-			set => AssignField(ref _selectedAlimenation, value, MethodBase.GetCurrentMethod().Name);
+			set
+			{
+				AssignField(ref _selectedAlimenation, value, MethodBase.GetCurrentMethod().Name);
+				UpdatePrice(SelectedAlimentation);
+			}
 		}
 
 		public Stock SelectedRefroidissement // item sélectionné dans la combo box
 		{
 			get => _selectedRefroidissement;
-			set => AssignField(ref _selectedRefroidissement, value, MethodBase.GetCurrentMethod().Name);
+			set
+			{
+				AssignField(ref _selectedRefroidissement, value, MethodBase.GetCurrentMethod().Name);
+				UpdatePrice(SelectedRefroidissement);
+			}
 		}
 
 		public AssemblageViewModel()
@@ -188,6 +224,21 @@ namespace Pata_WPF_Commerce.ViewModels
 		public void ChangedSelectedItem()
 		{
 			ItemInForm = Map(SelectedItem, new DataAssemblage());
+		}
+
+		private void UpdatePrice(Stock stock)
+		{
+			// si l'élément existe déjà
+			var elementInList = ItemsList.FirstOrDefault(item => item.Categorie == stock.Categorie);
+			if (elementInList != null)
+			{
+				int index = ItemsList.IndexOf(elementInList);
+				ItemsList[index] = Map(stock, new DataStock());
+			}
+			else
+			{
+				ItemsList.Add(Map(stock, new DataStock()));
+			}
 		}
 
 		/**
