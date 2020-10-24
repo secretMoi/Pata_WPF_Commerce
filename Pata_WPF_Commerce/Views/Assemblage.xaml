@@ -76,29 +76,39 @@
 					  ItemsSource="{Binding Refroidissement}" SelectedItem="{Binding SelectedRefroidissement, Mode=TwoWay}"
 					  DisplayMemberPath="Nom" SelectedValuePath="Nom" />
 
-            <TextBlock Text="Nom" Grid.Row="4" Grid.Column="2" />
-            <TextBox Text="{Binding ItemInForm.Nom, Mode=TwoWay}" Grid.Row="4" Grid.Column="3" />
+			<TextBlock Text="Nom" Grid.Row="4" Grid.Column="2" />
+			<TextBox Text="{Binding ItemInForm.Nom, Mode=TwoWay}" Grid.Row="4" Grid.Column="3" />
 
-            <TextBlock Text="Prix total" Grid.Row="5" Grid.Column="0" />
-            <TextBlock Text="{Binding ItemInForm.Prix}" Grid.Row="5" Grid.Column="1" />
+			<TextBlock Text="Prix total" Grid.Row="5" Grid.Column="0" />
+			<TextBlock Text="{Binding ItemInForm.Prix}" Grid.Row="5" Grid.Column="1" />
 
-            <TextBlock Text="Prix promo" Grid.Row="5" Grid.Column="2" />
-            <TextBox Text="{Binding ItemInForm.PrixPromo}" Grid.Row="5" Grid.Column="3" />
-        </Grid>
+			<TextBlock Text="Prix promo" Grid.Row="5" Grid.Column="2" />
+			<TextBox Text="{Binding ItemInForm.PrixPromo}" Grid.Row="5" Grid.Column="3" />
+		</Grid>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Calculer" Margin="5" Command="{Binding CommandCalculate}" />
-            <Button Content="Confirmer" Margin="5" Command="{Binding CommandAdd}" />
-        </StackPanel>
+		<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+			<Button Content="Calculer" Margin="5" Command="{Binding CommandCalculate}" />
+			<Button Content="Confirmer" Margin="5" Command="{Binding CommandAdd}" />
+		</StackPanel>
 
-        <DataGrid Name="DataGridClients" ItemsSource="{Binding Path=Pcs}" Grid.Row="2" Grid.Column="0"
-                  IsReadOnly="True" AutoGenerateColumns="False"
-                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionChanged="DataGrid_OnSelectionChanged">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*" />
-                <DataGridTextColumn Header="Prix" Binding="{Binding Prix}" Width="*" />
-                <DataGridTextColumn Header="Prix promo" Binding="{Binding PrixPromo}" Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>
+		<StackPanel Grid.Row="2" Orientation="Horizontal">
+			<DataGrid Name="DataGridClients" ItemsSource="{Binding Path=Pcs}"
+					  IsReadOnly="True" AutoGenerateColumns="False" Width="500"
+					  SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionChanged="DataGrid_OnSelectionChanged">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*" />
+					<DataGridTextColumn Header="Prix" Binding="{Binding Prix}" Width="*" />
+					<DataGridTextColumn Header="Prix promo" Binding="{Binding PrixPromo}" Width="*" />
+				</DataGrid.Columns>
+			</DataGrid>
+
+			<DataGrid ItemsSource="{Binding Path=ItemsList}" Margin="50,0"
+					  IsReadOnly="True" AutoGenerateColumns="False" Width="230">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*" />
+					<DataGridTextColumn Header="Prix" Binding="{Binding PrixVente}" Width="Auto" />
+				</DataGrid.Columns>
+			</DataGrid>
+		</StackPanel>
     </Grid>
 </Window>

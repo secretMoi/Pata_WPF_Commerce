@@ -15,6 +15,9 @@ namespace Pata_WPF_Commerce.ViewModels
 		private DataAssemblage _selectedItemInDgv; // données dans la dgv
 		private DataAssemblage _itemInForm; // données bindée dans le formulaire
 
+
+		public  ObservableCollection<DataStock> ItemsList { get; set; } // données bindée dans la listbox
+
 		public ObservableCollection<DataAssemblage> Pcs { get; set; } // données bindée dans la dgv
 
 		// repo
@@ -116,6 +119,8 @@ namespace Pata_WPF_Commerce.ViewModels
 		{
 			ItemInForm = new DataAssemblage();
 
+			ItemsList = new ObservableCollection<DataStock>();
+
 			Pcs = LoadPcs(); // récupère les Pcs dans la bdd
 
 			Processeurs = LoadPart("Processeur"); // récupère les parties dans la bdd
@@ -185,6 +190,9 @@ namespace Pata_WPF_Commerce.ViewModels
 			ItemInForm = Map(SelectedItem, new DataAssemblage());
 		}
 
+		/**
+		 * Calcule le prix de la configuration
+		 */
 		private void Calculate()
 		{
 			if (!ChampsValides())
@@ -193,39 +201,44 @@ namespace Pata_WPF_Commerce.ViewModels
 				return;
 			}
 
-			decimal prixTotal = 0;
-			prixTotal += SelectedProcesseur.PrixVente;
-			prixTotal += SelectedAlimentation.PrixVente;
-			prixTotal += SelectedBoitier.PrixVente;
+			ItemsList.Add(Map(SelectedProcesseur, new DataStock()));
+			ItemsList.Add(Map(SelectedAlimentation, new DataStock()));
+			ItemsList.Add(Map(SelectedBoitier, new DataStock()));
 
-			prixTotal += SelectedCarteGraphique.PrixVente;
-			prixTotal += SelectedCarteMere.PrixVente;
-			prixTotal += SelectedDisqueDur1.PrixVente;
+			ItemsList.Add(Map(SelectedCarteGraphique, new DataStock()));
+			ItemsList.Add(Map(SelectedCarteMere, new DataStock()));
+			ItemsList.Add(Map(SelectedDisqueDur1, new DataStock()));
 
-			if(SelectedDisqueDur2 != null)
-				prixTotal += SelectedDisqueDur2.PrixVente;
-			prixTotal += SelectedRam.PrixVente;
-			prixTotal += SelectedRefroidissement.PrixVente;
+			ItemsList.Add(Map(SelectedRam, new DataStock()));
+			ItemsList.Add(Map(SelectedRefroidissement, new DataStock()));
+
+			if (SelectedDisqueDur2 != null)
+				ItemsList.Add(Map(SelectedDisqueDur2, new DataStock()));
+
+			decimal prixTotal = ItemsList.Sum(item => Money.Round(item.PrixVente));
 
 			ItemInForm.Prix = Money.Round(prixTotal);
 		}
 
 		private void Add()
 		{
-			if (!ChampsValides())
+			if (!ChampsValides() && ItemInForm.Nom != "" && ItemInForm.PrixPromo > 0)
 			{
 				MessageBox.Show("Veuillez remplir les champs correctement !");
 				return;
 			}
 		}
 
+		/**
+		 * <summary>Vérifie que les combo box soient bien remplies</summary>
+		 * <returns>true si elles le sont toutes, false si au moins une ne l'est pas</returns>
+		 */
 		private bool ChampsValides()
 		{
 			return
 				SelectedProcesseur != null && SelectedRam != null && SelectedAlimentation != null &&
 				SelectedCarteMere != null && SelectedCarteGraphique != null && SelectedBoitier != null &&
-				SelectedDisqueDur1 != null && SelectedRefroidissement != null &&
-				ItemInForm.Nom != "" && ItemInForm.PrixPromo > 0;
+				SelectedDisqueDur1 != null && SelectedRefroidissement != null;
 		}
 
 		public BaseCommand CommandCalculate { get; set; }
