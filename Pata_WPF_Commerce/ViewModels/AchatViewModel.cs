@@ -28,7 +28,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		private readonly IList<Acheter> _acheter = new List<Acheter>(); // liste des éléments à acheter dans la rtb
 
 		public ObservableCollection<DataStock> Stocks { get; set; } // données bindée dans la dgv
-		public ObservableCollection<Fournisseur> Fournisseurs { get; set; } // données bindée dans la dgv du client sélectionné
+		public ObservableCollection<Fournisseur> Fournisseurs { get; set; } // données bindée dans la combobox du fournisseur sélectionné
 
 		public DataAchat ItemInForm // données bindées dans le formulaire
 		{
