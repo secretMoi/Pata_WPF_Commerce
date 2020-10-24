@@ -41,7 +41,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		public ObservableCollection<Stock> DisqueDur1 { get; set; } // données bindée dans la combobox
 		public ObservableCollection<Stock> DisqueDur2 { get; set; } // données bindée dans la combobox
 		public ObservableCollection<Stock> Boitier { get; set; } // données bindée dans la combobox
-		public ObservableCollection<Stock> Alimenation { get; set; } // données bindée dans la combobox
+		public ObservableCollection<Stock> Alimentation { get; set; } // données bindée dans la combobox
 		public ObservableCollection<Stock> Refroidissement { get; set; } // données bindée dans la combobox
 
 		public DataAssemblage ItemInForm // données bindées dans le formulaire
@@ -115,7 +115,17 @@ namespace Pata_WPF_Commerce.ViewModels
 			ItemInForm = new DataAssemblage();
 
 			Pcs = LoadPcs(); // récupère les Pcs dans la bdd
+
 			Processeurs = LoadPart("Processeur"); // récupère les parties dans la bdd
+			Ram = LoadPart("RAM"); // récupère les parties dans la bdd
+			CarteGraphique = LoadPart("Carte graphique"); // récupère les parties dans la bdd
+			Alimentation = LoadPart("Alimentation"); // récupère les parties dans la bdd
+			Boitier = LoadPart("Boitier"); // récupère les parties dans la bdd
+			DisqueDur1 = LoadPart("Disque dur 1"); // récupère les parties dans la bdd
+			DisqueDur2 = LoadPart("Disque dur 2"); // récupère les parties dans la bdd
+			Refroidissement = LoadPart("Refroidissement"); // récupère les parties dans la bdd
+			CarteMere = LoadPart("Carte mère"); // récupère les parties dans la bdd
+
 
 			// bind les commandes au xaml
 			//CommandConfirm = new BaseCommand(Confirm);
@@ -148,7 +158,10 @@ namespace Pata_WPF_Commerce.ViewModels
 				_stocks = _stockRepository.Lire();
 
 			// sélectionne la catégorie demandée
-			CategorieComposant category = _categories.First(item => item.Nom == part);
+			CategorieComposant category = _categories.FirstOrDefault(item => item.Nom == part);
+
+			if (category == null)
+				return null;
 
 			IList<Stock> stocks = _stocks.Where(stock => stock.Categorie == category.Id).ToList();
 
