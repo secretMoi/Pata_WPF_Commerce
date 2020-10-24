@@ -70,7 +70,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Gestion.Ajouter(model.Nom, model.QuantiteActuelle, model.QuantiteMin, model.PrixAchat, model.PrixVente);
+				return Gestion.Ajouter(model.Nom, model.QuantiteActuelle, model.QuantiteMin, model.PrixAchat, model.PrixVente, model.Categorie);
 			}
 			catch (Exception e)
 			{
@@ -104,7 +104,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Gestion.Modifier(model.Id, model.Nom, model.QuantiteActuelle, model.QuantiteMin, model.PrixAchat, model.PrixVente);
+				return Gestion.Modifier(model.Id, model.Nom, model.QuantiteActuelle, model.QuantiteMin, model.PrixAchat, model.PrixVente, model.Categorie);
 			}
 			catch (Exception e)
 			{

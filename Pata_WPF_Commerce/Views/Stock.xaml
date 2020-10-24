@@ -62,6 +62,7 @@
               LoadingRow="DataGridClients_OnLoadingRow">
             <DataGrid.Columns>
                 <DataGridTextColumn Visibility="Hidden" Binding="{Binding Id}" />
+                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Categorie}" />
                 <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*" />
                 <DataGridTextColumn Header="Quantité actuelle" Binding="{Binding QuantiteActuelle}" Width="*" />
                 <DataGridTextColumn Header="Quantité minimale" Binding="{Binding QuantiteMin}" Width="*" />

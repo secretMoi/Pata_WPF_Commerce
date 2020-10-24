@@ -8,6 +8,7 @@ namespace Pata_WPF_Commerce.ViewModels.DataBinding
 		private string _nom;
 		private int _quantiteActuelle, _quantiteMin;
 		private decimal _prixAchat, _prixVente;
+		private int _categorie;
 
 		public int Id
 		{
@@ -43,6 +44,12 @@ namespace Pata_WPF_Commerce.ViewModels.DataBinding
 		{
 			get => _prixVente;
 			set => AssignField(ref _prixVente, value, MethodBase.GetCurrentMethod().Name);
+		}
+
+		public int Categorie
+		{
+			get => _categorie;
+			set => AssignField(ref _categorie, value, MethodBase.GetCurrentMethod().Name);
 		}
 	}
 }

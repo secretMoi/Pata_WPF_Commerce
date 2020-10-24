@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Database.Classes;
@@ -16,7 +17,7 @@ namespace Pata_WPF_Commerce.ViewModels
 	public class StockViewModel : BaseProperty
 	{
 		private DataStock _itemInForm; // données bindée dans le formulaire
-		private Stock _selectedItemInDgv; // données du stock sélectionné dans la dgv
+		private DataStock _selectedItemInDgv; // données du stock sélectionné dans la dgv
 		private DataCategorie _selectedItemInComboBox; // données dans la combo box
 
 		private readonly StocksRepository _repository = StocksRepository.Instance;
@@ -28,7 +29,7 @@ namespace Pata_WPF_Commerce.ViewModels
 			set => AssignField(ref _itemInForm, value, MethodBase.GetCurrentMethod().Name);
 		}
 
-		public Stock SelectedItem // données du stock sélectionné dans la dgv
+		public DataStock SelectedItem // données du stock sélectionné dans la dgv
 		{
 			get => _selectedItemInDgv;
 			set => AssignField(ref _selectedItemInDgv, value, MethodBase.GetCurrentMethod().Name);
@@ -42,14 +43,15 @@ namespace Pata_WPF_Commerce.ViewModels
 
 		public ObservableCollection<DataCategorie> Categories { get; set; } // données bindée dans la dgv du stock sélectionné
 
-		public ObservableCollection<Stock> Stocks { get; set; } // données bindée dans la dgv du stock sélectionné
+		public ObservableCollection<DataStock> Stocks { get; set; } // données bindée dans la dgv du stock sélectionné
 
 		public StockViewModel()
 		{
 			Stocks = LoadStocks(); // récupère les stocks dans la bdd
 			Categories = LoadCategories(); // récupère les Categories dans la bdd
 
-			ItemInForm = Map(Stocks.FirstOrDefault(), ItemInForm); // injecte le premier stock trouvé
+			ItemInForm = Stocks.FirstOrDefault(); // injecte le premier stock trouvé
+			SelectedCategory = Categories.First(item => item.Id == ItemInForm.Categorie);
 
 			// bind les commandes au xaml
 			CommandAdd = new BaseCommand(Add);
@@ -62,15 +64,19 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		private async void Add()
 		{
+			if (!ChampsValides())
+			{
+				MessageBox.Show("Veuillez remplir les champs correctement !");
+				return;
+			}
+
 			// ajoute le nouveau stock à la bdd
-			Stock model = new Stock();
-			model = Map(ItemInForm, model);
-			model.Categorie = SelectedCategory.Id;
+			Stock model = Map(ItemInForm, new Stock());
 
 			await _repository.AjouterAsync(model);
 
 			// ajoute ce nouveau stock à la dgv
-			Stocks.Add(model);
+			Stocks.Add(Map(model, new DataStock()));
 		}
 
 		/**
@@ -78,16 +84,44 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		private async void Modify()
 		{
+			if (!ChampsValides())
+			{
+				MessageBox.Show("Veuillez remplir les champs correctement !");
+				return;
+			}
+
 			// map le stock entre le formulaire et le model
-			Stock model = new Stock();
-			model = Map(ItemInForm, model);
-			model.Categorie = SelectedCategory.Id;
+			Stock model = ConvertToModel(ItemInForm);
 
 			await _repository.ModifierAsync(model); // ajoute à la bdd
+		}
 
-			// rafraichit la dgv
-			int index = Stocks.IndexOf(SelectedItem);
-			Stocks[index] = model;
+		/**
+		 * <summary>Vérifie que les champs soient biens remplis</summary>
+		 * <returns>true si ils le sont, false si au moins un ne l'est pas</returns>
+		 */
+		private bool ChampsValides()
+		{
+			return ItemInForm.Nom != "" && ItemInForm.QuantiteActuelle > 0 && ItemInForm.QuantiteMin > 0 &&
+			       ItemInForm.Categorie > 0 && ItemInForm.PrixVente > 0 && ItemInForm.PrixAchat > 0;
+		}
+
+		/**
+		 * <summary>Converti un model bindé en un nouveau model</summary>
+		 * <returns>Renvoie un model pour la bdd hydraté</returns>
+		 */
+		private Stock ConvertToModel(DataStock dataStock)
+		{
+			return new Stock()
+			{
+				Id = dataStock.Id,
+				Nom = dataStock.Nom,
+				QuantiteActuelle = dataStock.QuantiteActuelle,
+				QuantiteMin = dataStock.QuantiteMin,
+				PrixAchat = dataStock.PrixAchat,
+				PrixVente = dataStock.PrixVente,
+				Categorie = dataStock.Categorie,
+			};
 		}
 
 		/**
@@ -117,14 +151,14 @@ namespace Pata_WPF_Commerce.ViewModels
 		 * <summary>Charge les items de la bdd pour hydrater la dgv</summary>
 		 * <returns>Retourne une liste d'éléments</returns>
 		 */
-		private ObservableCollection<Stock> LoadStocks()
+		private ObservableCollection<DataStock> LoadStocks()
 		{
-			ObservableCollection<Stock> list = new ObservableCollection<Stock>();
+			ObservableCollection<DataStock> list = new ObservableCollection<DataStock>();
 			IList<Stock> tempsList = _repository.Lire(); // lit la bdd
 
 			// injecte dans la liste
 			foreach (var stock in tempsList)
-				list.Add(stock);
+				list.Add(Map(stock, new DataStock()));
 
 			return list;
 		}
@@ -150,7 +184,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		public void ChangedSelectedItem()
 		{
-			ItemInForm = Map(SelectedItem, ItemInForm);
+			ItemInForm = SelectedItem;
 			SelectedCategory = Categories.First(item => item.Id == SelectedItem.Categorie);
 		}
 
@@ -161,7 +195,7 @@ namespace Pata_WPF_Commerce.ViewModels
 		 */
 		public void AdaptBackColor(DataGridRowEventArgs e)
 		{
-			if (((Stock)e.Row.DataContext).QuantiteMin > ((Stock)e.Row.DataContext).QuantiteActuelle)
+			if (((DataStock)e.Row.DataContext).QuantiteMin > ((DataStock)e.Row.DataContext).QuantiteActuelle)
 				e.Row.Background = new SolidColorBrush(Color.FromRgb(255, 85, 66));
 		}
 
