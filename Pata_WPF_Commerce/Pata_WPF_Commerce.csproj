@@ -130,6 +130,9 @@
     <Compile Include="Views\Achat.xaml.cs">
       <DependentUpon>Achat.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Assemblage.xaml.cs">
+      <DependentUpon>Assemblage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Categories.xaml.cs">
       <DependentUpon>Categories.xaml</DependentUpon>
     </Compile>
@@ -150,6 +153,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Achat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Assemblage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

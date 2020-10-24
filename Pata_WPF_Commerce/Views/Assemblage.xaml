@@ -1,0 +1,36 @@
+﻿<Window x:Class="Pata_WPF_Commerce.Views.Assemblage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:viewModels="clr-namespace:Pata_WPF_Commerce.ViewModels"
+        d:DataContext="{d:DesignInstance viewModels:AssemblageViewModel, IsDesignTimeCreatable=True}"
+        Title="Assemblage" Height="450" Width="800">
+    <Grid Margin="3">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Margin="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Fournisseur" Grid.Row="0" Grid.Column="0" />
+            <ComboBox Grid.Row="0" Grid.Column="1" Margin="3"
+                      ItemsSource="{Binding Processeurs}" SelectedItem="{Binding SelectedProcesseur, Mode=TwoWay}"
+                      DisplayMemberPath="Nom" SelectedValuePath="Nom" />
+        </Grid>
+    </Grid>
+</Window>
