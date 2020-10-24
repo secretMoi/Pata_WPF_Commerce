@@ -10,6 +10,7 @@
 	<Grid Margin="3">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
@@ -27,6 +28,7 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
 			<TextBlock Text="Processeur" Grid.Row="0" Grid.Column="0" />
@@ -39,40 +41,64 @@
 					  ItemsSource="{Binding Ram}" SelectedItem="{Binding SelectedRam, Mode=TwoWay}"
 					  DisplayMemberPath="Nom" SelectedValuePath="Nom" />
 
-            <TextBlock Text="Carte mère" Grid.Row="1" Grid.Column="0" />
-            <ComboBox Grid.Row="1" Grid.Column="1" Margin="3"
-                      ItemsSource="{Binding CarteMere}" SelectedItem="{Binding SelectedCarteMere, Mode=TwoWay}"
-                      DisplayMemberPath="Nom" SelectedValuePath="Nom" />
+			<TextBlock Text="Carte mère" Grid.Row="1" Grid.Column="0" />
+			<ComboBox Grid.Row="1" Grid.Column="1" Margin="3"
+					  ItemsSource="{Binding CarteMere}" SelectedItem="{Binding SelectedCarteMere, Mode=TwoWay}"
+					  DisplayMemberPath="Nom" SelectedValuePath="Nom" />
 
-            <TextBlock Text="Carte graphique" Grid.Row="1" Grid.Column="2" />
-            <ComboBox Grid.Row="1" Grid.Column="3" Margin="3"
-                      ItemsSource="{Binding CarteGraphique}" SelectedItem="{Binding SelectedCarteGraphique, Mode=TwoWay}"
-                      DisplayMemberPath="Nom" SelectedValuePath="Nom" />
+			<TextBlock Text="Carte graphique" Grid.Row="1" Grid.Column="2" />
+			<ComboBox Grid.Row="1" Grid.Column="3" Margin="3"
+					  ItemsSource="{Binding CarteGraphique}" SelectedItem="{Binding SelectedCarteGraphique, Mode=TwoWay}"
+					  DisplayMemberPath="Nom" SelectedValuePath="Nom" />
 
-            <TextBlock Text="Disque dur 1" Grid.Row="2" Grid.Column="0" />
-            <ComboBox Grid.Row="2" Grid.Column="1" Margin="3"
-                      ItemsSource="{Binding DisqueDur1}" SelectedItem="{Binding SelectedDisqueDur1, Mode=TwoWay}"
-                      DisplayMemberPath="Nom" SelectedValuePath="Nom" />
+			<TextBlock Text="Disque dur 1" Grid.Row="2" Grid.Column="0" />
+			<ComboBox Grid.Row="2" Grid.Column="1" Margin="3"
+					  ItemsSource="{Binding DisqueDur1}" SelectedItem="{Binding SelectedDisqueDur1, Mode=TwoWay}"
+					  DisplayMemberPath="Nom" SelectedValuePath="Nom" />
 
-            <TextBlock Text="Disque dur 2" Grid.Row="2" Grid.Column="2" />
-            <ComboBox Grid.Row="2" Grid.Column="3" Margin="3"
-                      ItemsSource="{Binding DisqueDur2}" SelectedItem="{Binding SelectedDisqueDur2, Mode=TwoWay}"
-                      DisplayMemberPath="Nom" SelectedValuePath="Nom" />
+			<TextBlock Text="Disque dur 2" Grid.Row="2" Grid.Column="2" />
+			<ComboBox Grid.Row="2" Grid.Column="3" Margin="3"
+					  ItemsSource="{Binding DisqueDur2}" SelectedItem="{Binding SelectedDisqueDur2, Mode=TwoWay}"
+					  DisplayMemberPath="Nom" SelectedValuePath="Nom" />
 
-            <TextBlock Text="Boitier" Grid.Row="3" Grid.Column="0" />
-            <ComboBox Grid.Row="3" Grid.Column="1" Margin="3"
-                      ItemsSource="{Binding Boitier}" SelectedItem="{Binding SelectedBoitier, Mode=TwoWay}"
-                      DisplayMemberPath="Nom" SelectedValuePath="Nom" />
+			<TextBlock Text="Boitier" Grid.Row="3" Grid.Column="0" />
+			<ComboBox Grid.Row="3" Grid.Column="1" Margin="3"
+					  ItemsSource="{Binding Boitier}" SelectedItem="{Binding SelectedBoitier, Mode=TwoWay}"
+					  DisplayMemberPath="Nom" SelectedValuePath="Nom" />
 
-            <TextBlock Text="Alimentation" Grid.Row="3" Grid.Column="2" />
-            <ComboBox Grid.Row="3" Grid.Column="3" Margin="3"
-                      ItemsSource="{Binding Alimentation}" SelectedItem="{Binding SelectedAlimentation, Mode=TwoWay}"
-                      DisplayMemberPath="Nom" SelectedValuePath="Nom" />
+			<TextBlock Text="Alimentation" Grid.Row="3" Grid.Column="2" />
+			<ComboBox Grid.Row="3" Grid.Column="3" Margin="3"
+					  ItemsSource="{Binding Alimentation}" SelectedItem="{Binding SelectedAlimentation, Mode=TwoWay}"
+					  DisplayMemberPath="Nom" SelectedValuePath="Nom" />
 
-            <TextBlock Text="Refroidissement" Grid.Row="4" Grid.Column="0" />
-            <ComboBox Grid.Row="4" Grid.Column="1" Margin="3"
-                      ItemsSource="{Binding Refroidissement}" SelectedItem="{Binding SelectedRefroidissement, Mode=TwoWay}"
-                      DisplayMemberPath="Nom" SelectedValuePath="Nom" />
+			<TextBlock Text="Refroidissement" Grid.Row="4" Grid.Column="0" />
+			<ComboBox Grid.Row="4" Grid.Column="1" Margin="3"
+					  ItemsSource="{Binding Refroidissement}" SelectedItem="{Binding SelectedRefroidissement, Mode=TwoWay}"
+					  DisplayMemberPath="Nom" SelectedValuePath="Nom" />
+
+            <TextBlock Text="Nom" Grid.Row="4" Grid.Column="2" />
+            <TextBox Text="{Binding ItemInForm.Nom, Mode=TwoWay}" Grid.Row="4" Grid.Column="3" />
+
+            <TextBlock Text="Prix total" Grid.Row="5" Grid.Column="0" />
+            <TextBlock Text="{Binding ItemInForm.Prix}" Grid.Row="5" Grid.Column="1" />
+
+            <TextBlock Text="Prix promo" Grid.Row="5" Grid.Column="2" />
+            <TextBox Text="{Binding ItemInForm.PrixPromo}" Grid.Row="5" Grid.Column="3" />
         </Grid>
-	</Grid>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Calculer" Margin="5" Command="{Binding CommandCalculate}" />
+            <Button Content="Confirmer" Margin="5" Command="{Binding CommandAdd}" />
+        </StackPanel>
+
+        <DataGrid Name="DataGridClients" ItemsSource="{Binding Path=Pcs}" Grid.Row="2" Grid.Column="0"
+                  IsReadOnly="True" AutoGenerateColumns="False"
+                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionChanged="DataGrid_OnSelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*" />
+                <DataGridTextColumn Header="Prix" Binding="{Binding Prix}" Width="*" />
+                <DataGridTextColumn Header="Prix promo" Binding="{Binding PrixPromo}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
 </Window>

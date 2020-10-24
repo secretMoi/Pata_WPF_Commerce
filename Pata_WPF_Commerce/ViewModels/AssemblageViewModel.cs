@@ -2,10 +2,12 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using System.Windows;
 using Database.Classes;
+using Pata_WPF_Commerce.Core;
 using Pata_WPF_Commerce.Repositories;
 using Pata_WPF_Commerce.ViewModels.DataBinding;
-
+//todo list des composants + prix
 namespace Pata_WPF_Commerce.ViewModels
 {
 	public class AssemblageViewModel : BaseProperty    
@@ -128,7 +130,8 @@ namespace Pata_WPF_Commerce.ViewModels
 
 
 			// bind les commandes au xaml
-			//CommandConfirm = new BaseCommand(Confirm);
+			CommandCalculate = new BaseCommand(Calculate);
+			CommandAdd = new BaseCommand(Add);
 		}
 
 		private ObservableCollection<DataAssemblage> LoadPcs()
@@ -173,5 +176,59 @@ namespace Pata_WPF_Commerce.ViewModels
 
 			return list;
 		}
+
+		/**
+		 * <summary>Actions à effectuer lors du changement de sélection dans la dgv</summary>
+		 */
+		public void ChangedSelectedItem()
+		{
+			ItemInForm = Map(SelectedItem, new DataAssemblage());
+		}
+
+		private void Calculate()
+		{
+			if (!ChampsValides())
+			{
+				MessageBox.Show("Veuillez remplir les champs correctement !");
+				return;
+			}
+
+			decimal prixTotal = 0;
+			prixTotal += SelectedProcesseur.PrixVente;
+			prixTotal += SelectedAlimentation.PrixVente;
+			prixTotal += SelectedBoitier.PrixVente;
+
+			prixTotal += SelectedCarteGraphique.PrixVente;
+			prixTotal += SelectedCarteMere.PrixVente;
+			prixTotal += SelectedDisqueDur1.PrixVente;
+
+			if(SelectedDisqueDur2 != null)
+				prixTotal += SelectedDisqueDur2.PrixVente;
+			prixTotal += SelectedRam.PrixVente;
+			prixTotal += SelectedRefroidissement.PrixVente;
+
+			ItemInForm.Prix = Money.Round(prixTotal);
+		}
+
+		private void Add()
+		{
+			if (!ChampsValides())
+			{
+				MessageBox.Show("Veuillez remplir les champs correctement !");
+				return;
+			}
+		}
+
+		private bool ChampsValides()
+		{
+			return
+				SelectedProcesseur != null && SelectedRam != null && SelectedAlimentation != null &&
+				SelectedCarteMere != null && SelectedCarteGraphique != null && SelectedBoitier != null &&
+				SelectedDisqueDur1 != null && SelectedRefroidissement != null &&
+				ItemInForm.Nom != "" && ItemInForm.PrixPromo > 0;
+		}
+
+		public BaseCommand CommandCalculate { get; set; }
+		public BaseCommand CommandAdd { get; set; }
 	}
 }
