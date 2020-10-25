@@ -98,6 +98,7 @@
     </ApplicationDefinition>
     <Compile Include="Configuration.cs" />
     <Compile Include="Core\HtmlView.cs" />
+    <Compile Include="Core\Mailer.cs" />
     <Compile Include="Core\Money.cs" />
     <Compile Include="Core\Pdf.cs" />
     <Compile Include="Core\Viewer.cs" />
