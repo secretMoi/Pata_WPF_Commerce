@@ -70,7 +70,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Gestion.Ajouter(client.Nom, client.Prenom, client.Naissance);
+				return Gestion.Ajouter(client.Nom, client.Prenom, client.Naissance, client.Mail);
 			}
 			catch (Exception e)
 			{
@@ -104,7 +104,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Gestion.Modifier(client.Id, client.Nom, client.Prenom, client.Naissance);
+				return Gestion.Modifier(client.Id, client.Nom, client.Prenom, client.Naissance, client.Mail);
 			}
 			catch (Exception e)
 			{

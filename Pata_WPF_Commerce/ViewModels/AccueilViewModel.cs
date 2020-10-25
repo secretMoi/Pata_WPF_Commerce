@@ -35,6 +35,7 @@ namespace Pata_WPF_Commerce.ViewModels
 			CommandCheckStock = new BaseCommand(CheckStock);
 			CommandCategories = new BaseCommand(Categories);
 			CommandAssemblage = new BaseCommand(Assemblage);
+			CommandSend = new BaseCommand(Send);
 		}
 
 		/**
@@ -126,6 +127,24 @@ namespace Pata_WPF_Commerce.ViewModels
 			fenetre.ShowDialog();
 		}
 
+		private async void Send()
+		{
+			Mailer mailer = new Mailer()
+			{
+				Source = Item.Source,
+				Password = Item.Password,
+				Destination = Item.Destination,
+				Title = Item.Title,
+				Body = Item.Body
+			};
+
+			bool res = await mailer.SendAsync();
+			if (res)
+				MessageBox.Show("Envoi réussi à " + Item.Destination);
+			else
+				MessageBox.Show("Echec de l'envoi à " + Item.Destination);
+		}
+
 		public BaseCommand CommandClients { get; set; }
 		public BaseCommand CommandFournisseurs { get; set; }
 		public BaseCommand CommandStocks { get; set; }
@@ -134,5 +153,6 @@ namespace Pata_WPF_Commerce.ViewModels
 		public BaseCommand CommandCheckStock { get; set; }
 		public BaseCommand CommandCategories { get; set; }
 		public BaseCommand CommandAssemblage { get; set; }
+		public BaseCommand CommandSend { get; set; }
 	}
 }

@@ -12,10 +12,10 @@ namespace Pata_WPF_Commerce.Core
 		public string Title { get; set; }
 		public string Body { get; set; }
 
-		public async Task SendAsync()
+		public async Task<bool> SendAsync()
 		{
 			if(!IsValidAdress(Destination) || !IsValidAdress(Source))
-				return;
+				return false;
 
 			MailMessage mail = new MailMessage
 			{
@@ -34,6 +34,8 @@ namespace Pata_WPF_Commerce.Core
 			};
 
 			await smtp.SendMailAsync(mail);
+
+			return true;
 		}
 
 		public static bool IsValidAdress(string mail)

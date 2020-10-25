@@ -36,8 +36,6 @@ namespace Pata_WPF_Commerce.ViewModels
 			ClientMap = Map(Clients.FirstOrDefault(), ClientMap); // injecte le premier client trouvé
 
 			// bind les commandes au xaml
-			CommandeConfirm = new BaseCommand(Confirm);
-			CommandeCancel = new BaseCommand(Cancel);
 			CommandAdd = new BaseCommand(Add);
 			CommandDelete = new BaseCommand(Delete);
 			CommandModify = new BaseCommand(Modify);
@@ -93,19 +91,6 @@ namespace Pata_WPF_Commerce.ViewModels
 			ClientMap = Map(SelectedClient, ClientMap);
 		}
 
-		public void Confirm()
-		{
-			ClientMap.Nom = "coucou";
-		}
-
-		/**
-		 * <summary>Annule les modifications faites dans le formulaire</summary>
-		 */
-		public void Cancel()
-		{
-			ClientMap.Prenom = "test";
-		}
-
 		/**
 		 * <summary>Ajoute un élément à la dgv et la bdd</summary>
 		 */
@@ -155,13 +140,12 @@ namespace Pata_WPF_Commerce.ViewModels
 			await ClientsRepository.Instance.ModifierAsync(client); // ajoute à la bdd
 
 			// rafraichit la dgv
-			int index = Clients.IndexOf(SelectedClient);
+			var element = Clients.First(item => item.Id == client.Id);
+			int index = Clients.IndexOf(element);
 			Clients[index] = client;
 		}
 
 		#region Commands
-		public BaseCommand CommandeConfirm { get; set; }
-		public BaseCommand CommandeCancel { get; set; }
 		public BaseCommand CommandAdd { get; set; }
 		public BaseCommand CommandDelete { get; set; }
 		public BaseCommand CommandModify { get; set; }

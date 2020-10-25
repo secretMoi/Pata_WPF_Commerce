@@ -11,6 +11,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
@@ -26,11 +27,11 @@
 					<MenuItem Header="Liste"  Command="{Binding CommandClients, Mode=OneWay}" />
 				</MenuItem>
 
-                <MenuItem Header="_Stock">
-                    <MenuItem Header="Catégories"  Command="{Binding CommandCategories, Mode=OneWay}" />
-                    <MenuItem Header="Assemblage"  Command="{Binding CommandAssemblage, Mode=OneWay}" />
-                    <MenuItem Header="Liste"  Command="{Binding CommandStocks, Mode=OneWay}" />
-                </MenuItem>
+				<MenuItem Header="_Stock">
+					<MenuItem Header="Catégories"  Command="{Binding CommandCategories, Mode=OneWay}" />
+					<MenuItem Header="Assemblage"  Command="{Binding CommandAssemblage, Mode=OneWay}" />
+					<MenuItem Header="Liste"  Command="{Binding CommandStocks, Mode=OneWay}" />
+				</MenuItem>
 			</Menu>
 		</DockPanel>
 
@@ -51,5 +52,39 @@
 			<TextBox Text="{Binding Item.ChiffreAffaire}" Grid.Row="0" Grid.Column="1" />
 		</Grid>
 
+		<Grid Row="3" Margin="0, 20">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+            <TextBlock Text="Mail d'envoi : " Grid.Row="0" Grid.Column="0" />
+			<TextBox Text="{Binding Item.Source}" Grid.Row="0" Grid.Column="1" />
+
+            <TextBlock Text="Mot de passe : " Grid.Row="1" Grid.Column="0" />
+            <TextBox Text="{Binding Item.Password}" Grid.Row="1" Grid.Column="1" />
+
+            <TextBlock Text="Destination : " Grid.Row="2" Grid.Column="0" />
+            <TextBox Text="{Binding Item.Destination}" Grid.Row="2" Grid.Column="1" />
+
+            <TextBlock Text="Titre : " Grid.Row="3" Grid.Column="0" />
+            <TextBox Text="{Binding Item.Title}" Grid.Row="3" Grid.Column="1" />
+
+            <TextBlock Text="Corps : " Grid.Row="4" Grid.Column="0" />
+            <TextBox TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Height="200"
+                     VerticalScrollBarVisibility="Visible" Text="{Binding Item.Body}" Grid.Row="4" Grid.Column="1" />
+
+			<Button Grid.Row="5" Grid.Column="1" Margin="0,10,10,10" 
+                    Command="{Binding CommandSend}" Content="Envoyer" HorizontalAlignment="Right" />
+		</Grid>
 	</Grid>
 </Window>

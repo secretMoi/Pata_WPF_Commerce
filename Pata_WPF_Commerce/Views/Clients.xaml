@@ -26,6 +26,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -39,14 +40,12 @@
             <TextBlock Name="TextBlockPrenom" Text="Prénom" Grid.Row="1" Grid.Column="0" />
             <TextBox Name="TextBoxPrenom" Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding ClientMap.Prenom, Mode=TwoWay}"/>
 
-            <TextBlock Name="TextBlockNaissance" Text="Date de Naissance" Grid.Row="2" Grid.Column="0" />
-            <DatePicker Name="DatePickerNaissance" Grid.Row="2" Grid.Column="1" SelectedDate="{Binding ClientMap.Naissance, Mode=TwoWay, StringFormat=dd/mm/yyyy}" Margin="3" />
-        </Grid>
+            <TextBlock Text="Mail" Grid.Row="2" Grid.Column="0" />
+            <TextBox Grid.Row="2" Grid.Column="1" Margin="3" Text="{Binding ClientMap.Mail, Mode=TwoWay}"/>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="30,3" HorizontalAlignment="Center">
-            <Button Name="ButtonConfirm" Content="Confirm" Margin="3" Padding="3" Command="{Binding CommandeConfirm, Mode=OneWay}" />
-            <Button Name="ButtonCancel" Content="Cancel" Margin="3" Padding="3" Command="{Binding CommandeCancel, Mode=OneWay}" />
-        </StackPanel>
+            <TextBlock Name="TextBlockNaissance" Text="Date de Naissance" Grid.Row="3" Grid.Column="0" />
+            <DatePicker Name="DatePickerNaissance" Grid.Row="3" Grid.Column="1" SelectedDate="{Binding ClientMap.Naissance, Mode=TwoWay, StringFormat=dd/mm/yyyy}" Margin="3" />
+        </Grid>
 
         <DataGrid Name="DataGridClients" ItemsSource="{Binding Path=Clients}" Grid.Row="2" Grid.Column="0"
                   IsReadOnly="True" AutoGenerateColumns="False"

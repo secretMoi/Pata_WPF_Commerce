@@ -10,15 +10,16 @@ namespace Database.Classes
 		{
 		}
 
-		public Client(string nom, string prenom, DateTime naissance)
+		public Client(string nom, string prenom, DateTime naissance, string mail)
 		{
 			Nom = nom;
 			Prenom = prenom;
 			Naissance = naissance;
+			Mail = mail;
 		}
 
-		public Client(int id, string nom, string prenom, DateTime naissance)
-			: this(nom, prenom, naissance)
+		public Client(int id, string nom, string prenom, DateTime naissance, string mail)
+			: this(nom, prenom, naissance, mail)
 		{
 			Id = id;
 		}
@@ -36,6 +37,7 @@ namespace Database.Classes
 				_champs.Add(("nom", typeof(string)));
 				_champs.Add(("prenom", typeof(string)));
 				_champs.Add(("naissance", typeof(DateTime)));
+				_champs.Add(("mail", typeof(string)));
 			}
 
 			return _champs;
@@ -51,5 +53,6 @@ namespace Database.Classes
 		public string Nom { get; set; }
 		public string Prenom { get; set; }
 		public DateTime Naissance { get; set; }
+		public string Mail { get; set; }
 	}
 }
