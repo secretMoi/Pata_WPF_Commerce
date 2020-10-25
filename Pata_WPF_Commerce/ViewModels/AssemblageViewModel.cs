@@ -156,7 +156,7 @@ namespace Pata_WPF_Commerce.ViewModels
 
 			ItemsList = new ObservableCollection<DataStock>();
 
-			Pcs = LoadPcs(); // récupère les Pcs dans la bdd
+			LoadPcs(); // récupère les Pcs dans la bdd
 
 			Processeurs = LoadPart("Processeur"); // récupère les parties dans la bdd
 			Ram = LoadPart("RAM"); // récupère les parties dans la bdd
@@ -175,16 +175,14 @@ namespace Pata_WPF_Commerce.ViewModels
 			CommandDelete = new BaseCommand(Delete);
 		}
 
-		private ObservableCollection<DataAssemblage> LoadPcs()
+		private void LoadPcs()
 		{
-			ObservableCollection<DataAssemblage> list = new ObservableCollection<DataAssemblage>();
+			Pcs = new ObservableCollection<DataAssemblage>();
 			IList<Pc> tempsList = _pcRepository.Lire(); // lit la bdd
 
 			// injecte dans la liste
-			foreach (var stock in tempsList)
-				list.Add(Map(stock, new DataAssemblage()));
-
-			return list;
+			foreach (var pc in tempsList)
+				Pcs.Add(Map(pc, new DataAssemblage()));
 		}
 
 		/**
@@ -285,6 +283,8 @@ namespace Pata_WPF_Commerce.ViewModels
 
 			await _pcRepository.AjouterAsync(pc);
 
+			Pcs.Add(Map(pc, new DataAssemblage()));
+
 			MessageBox.Show($"Configuration {pc.Nom} ajoutée");
 		}
 
@@ -314,6 +314,10 @@ namespace Pata_WPF_Commerce.ViewModels
 				pc.DisqueDur2 = SelectedDisqueDur2.Id;
 
 			await _pcRepository.ModifierAsync(pc);
+
+			var found = Pcs.First(stock => stock.Id == pc.Id);
+			int i = Pcs.IndexOf(found);
+			Pcs[i] = Map(pc, new DataAssemblage());
 
 			MessageBox.Show($"Configuration {pc.Nom} modifiée");
 		}

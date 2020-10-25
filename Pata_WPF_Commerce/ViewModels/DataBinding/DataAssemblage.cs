@@ -1,4 +1,8 @@
-﻿using System.Reflection;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reflection;
+using Database.Classes;
+using Pata_WPF_Commerce.Core;
 
 namespace Pata_WPF_Commerce.ViewModels.DataBinding
 {
