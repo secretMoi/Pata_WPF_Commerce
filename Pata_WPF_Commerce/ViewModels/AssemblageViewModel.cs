@@ -15,7 +15,6 @@ namespace Pata_WPF_Commerce.ViewModels
 		private DataAssemblage _selectedItemInDgv; // données dans la dgv
 		private DataAssemblage _itemInForm; // données bindée dans le formulaire
 
-
 		public  ObservableCollection<DataStock> ItemsList { get; set; } // données bindée dans la listbox
 
 		public ObservableCollection<DataAssemblage> Pcs { get; set; } // données bindée dans la dgv
@@ -171,8 +170,9 @@ namespace Pata_WPF_Commerce.ViewModels
 
 
 			// bind les commandes au xaml
-			CommandCalculate = new BaseCommand(Calculate);
 			CommandAdd = new BaseCommand(Add);
+			CommandModify = new BaseCommand(Modify);
+			CommandDelete = new BaseCommand(Delete);
 		}
 
 		private ObservableCollection<DataAssemblage> LoadPcs()
@@ -224,6 +224,19 @@ namespace Pata_WPF_Commerce.ViewModels
 		public void ChangedSelectedItem()
 		{
 			ItemInForm = Map(SelectedItem, new DataAssemblage());
+
+			SelectedProcesseur = Processeurs.FirstOrDefault(item => item.Id == SelectedItem.Processeur);
+			SelectedCarteMere = CarteMere.FirstOrDefault(item => item.Id == SelectedItem.CarteMere);
+			SelectedCarteGraphique = CarteGraphique.FirstOrDefault(item => item.Id == SelectedItem.CarteGraphique);
+
+			SelectedRam = Ram.FirstOrDefault(item => item.Id == SelectedItem.Ram);
+			SelectedRefroidissement = Refroidissement.FirstOrDefault(item => item.Id == SelectedItem.Refroidissement);
+			SelectedAlimentation = Alimentation.FirstOrDefault(item => item.Id == SelectedItem.Alimentation);
+
+			SelectedDisqueDur1 = DisqueDur1.FirstOrDefault(item => item.Id == SelectedItem.DisqueDur1);
+			SelectedDisqueDur2 = DisqueDur2.FirstOrDefault(item => item.Id == SelectedItem.DisqueDur2);
+			SelectedBoitier = Boitier.FirstOrDefault(item => item.Id == SelectedItem.Boitier);
+
 		}
 
 		private void UpdatePrice(Stock stock)
@@ -236,48 +249,89 @@ namespace Pata_WPF_Commerce.ViewModels
 				ItemsList[index] = Map(stock, new DataStock());
 			}
 			else
-			{
 				ItemsList.Add(Map(stock, new DataStock()));
-			}
-		}
 
-		/**
-		 * Calcule le prix de la configuration
-		 */
-		private void Calculate()
-		{
-			if (!ChampsValides())
-			{
-				MessageBox.Show("Veuillez remplir les champs correctement !");
-				return;
-			}
-
-			ItemsList.Add(Map(SelectedProcesseur, new DataStock()));
-			ItemsList.Add(Map(SelectedAlimentation, new DataStock()));
-			ItemsList.Add(Map(SelectedBoitier, new DataStock()));
-
-			ItemsList.Add(Map(SelectedCarteGraphique, new DataStock()));
-			ItemsList.Add(Map(SelectedCarteMere, new DataStock()));
-			ItemsList.Add(Map(SelectedDisqueDur1, new DataStock()));
-
-			ItemsList.Add(Map(SelectedRam, new DataStock()));
-			ItemsList.Add(Map(SelectedRefroidissement, new DataStock()));
-
-			if (SelectedDisqueDur2 != null)
-				ItemsList.Add(Map(SelectedDisqueDur2, new DataStock()));
-
-			decimal prixTotal = ItemsList.Sum(item => Money.Round(item.PrixVente));
+			decimal prixTotal = 0;
+			foreach (var item in ItemsList)
+				prixTotal += item.PrixVente;
 
 			ItemInForm.Prix = Money.Round(prixTotal);
 		}
 
-		private void Add()
+		/**
+		 * Ajout un pc assemblé
+		 */
+		private async void Add()
 		{
 			if (!ChampsValides() && ItemInForm.Nom != "" && ItemInForm.PrixPromo > 0)
 			{
 				MessageBox.Show("Veuillez remplir les champs correctement !");
 				return;
 			}
+
+			Pc pc = Map(ItemInForm, new Pc());
+			pc.Processeur = SelectedProcesseur.Id;
+			pc.CarteMere = SelectedCarteMere.Id;
+			pc.CarteGraphique = SelectedCarteGraphique.Id;
+
+			pc.Ram = SelectedRam.Id;
+			pc.Refroidissement = SelectedRefroidissement.Id;
+			pc.Alimentation = SelectedAlimentation.Id;
+
+			pc.Boitier = SelectedBoitier.Id;
+			pc.DisqueDur1 = SelectedDisqueDur1.Id;
+			if(SelectedDisqueDur2 != null)
+				pc.DisqueDur2 = SelectedDisqueDur2.Id;
+
+			await _pcRepository.AjouterAsync(pc);
+
+			MessageBox.Show($"Configuration {pc.Nom} ajoutée");
+		}
+
+		/**
+		 * <summary>Modifie l'assemblage sélectionné</summary>
+		 */
+		private async void Modify()
+		{
+			if (!ChampsValides() && ItemInForm.Nom != "" && ItemInForm.PrixPromo > 0)
+			{
+				MessageBox.Show("Veuillez remplir les champs correctement !");
+				return;
+			}
+
+			Pc pc = Map(ItemInForm, new Pc());
+			pc.Processeur = SelectedProcesseur.Id;
+			pc.CarteMere = SelectedCarteMere.Id;
+			pc.CarteGraphique = SelectedCarteGraphique.Id;
+
+			pc.Ram = SelectedRam.Id;
+			pc.Refroidissement = SelectedRefroidissement.Id;
+			pc.Alimentation = SelectedAlimentation.Id;
+
+			pc.Boitier = SelectedBoitier.Id;
+			pc.DisqueDur1 = SelectedDisqueDur1.Id;
+			if (SelectedDisqueDur2 != null)
+				pc.DisqueDur2 = SelectedDisqueDur2.Id;
+
+			await _pcRepository.ModifierAsync(pc);
+
+			MessageBox.Show($"Configuration {pc.Nom} modifiée");
+		}
+
+		/**
+		 * <summary>Permet de supprimer l'assemblage sélectionné</summary>
+		 */
+		private async void Delete()
+		{
+			if (SelectedItem == null)
+			{
+				MessageBox.Show("Veuillez sélectionner une config à supprimer");
+				return;
+			}
+
+			await _pcRepository.SupprimerAsync(SelectedItem.Id);
+
+			Pcs.Remove(SelectedItem);
 		}
 
 		/**
@@ -292,7 +346,8 @@ namespace Pata_WPF_Commerce.ViewModels
 				SelectedDisqueDur1 != null && SelectedRefroidissement != null;
 		}
 
-		public BaseCommand CommandCalculate { get; set; }
 		public BaseCommand CommandAdd { get; set; }
+		public BaseCommand CommandModify { get; set; }
+		public BaseCommand CommandDelete { get; set; }
 	}
 }

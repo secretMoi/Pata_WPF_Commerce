@@ -86,9 +86,10 @@
 			<TextBox Text="{Binding ItemInForm.PrixPromo}" Grid.Row="5" Grid.Column="3" />
 		</Grid>
 
-		<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-			<Button Content="Calculer" Margin="5" Command="{Binding CommandCalculate}" />
-			<Button Content="Confirmer" Margin="5" Command="{Binding CommandAdd}" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Confirmer" Margin="5" Command="{Binding CommandAdd}" />
+            <Button Content="Modifier" Margin="5" Command="{Binding CommandModify}" />
+            <Button Content="Supprimer" Margin="5" Command="{Binding CommandDelete}" />
 		</StackPanel>
 
 		<StackPanel Grid.Row="2" Orientation="Horizontal">

@@ -109,7 +109,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Gestion.Modifier(model.Nom, model.Prix, model.PrixPromo,
+				return Gestion.Modifier(model.Id, model.Nom, model.Prix, model.PrixPromo,
 					model.Processeur, model.CarteMere, model.Ram,
 					model.CarteGraphique, model.DisqueDur1, model.DisqueDur2,
 					model.Boitier, model.Alimentation, model.Refroidissement
@@ -117,7 +117,7 @@ namespace Pata_WPF_Commerce.Repositories
 			}
 			catch (Exception e)
 			{
-				throw new Exception($"Impossible de modifier le stock {model.Id} : \n" + e.Message);
+				throw new Exception($"Impossible de modifier le pc {model.Id} : \n" + e.Message);
 			}
 		}
 
