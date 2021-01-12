@@ -1,42 +1,50 @@
 ﻿<Window x:Class="Pata_WPF_Commerce.Views.Fournisseurs"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        xmlns:viewModels="clr-namespace:Pata_WPF_Commerce.ViewModels"
-        d:DataContext="{d:DesignInstance viewModels:FournisseurViewModel, IsDesignTimeCreatable=True}"
-        Title="Fournisseurs" Height="450" Width="800">
-    <Grid Margin="3">
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		mc:Ignorable="d"
+		xmlns:viewModels="clr-namespace:Pata_WPF_Commerce.ViewModels"
+		d:DataContext="{d:DesignInstance viewModels:FournisseurViewModel, IsDesignTimeCreatable=True}"
+		Title="Fournisseurs" Height="450" Width="800">
+	<Grid Margin="3">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
 
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
             <TextBlock Name="TextBlockNom" Grid.Column="0" Text="Nom" />
-            <TextBox Name="TextBoxNom" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.Nom, Mode=TwoWay}"/>
-        </Grid>
+			<TextBox Name="TextBoxNom" Grid.Column="1" Margin="3" Text="{Binding ItemInForm.Nom, Mode=TwoWay}"/>
 
-        <DataGrid Name="DataGridClients" ItemsSource="{Binding Path=Fournisseurs}" Grid.Row="1"
-                  IsReadOnly="True" AutoGenerateColumns="False"
-                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionChanged="DataGrid_OnSelectionChanged">
-            <DataGrid.Columns>
-                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>
+            <TextBlock Name="TextBlockMail" Grid.Column="0" Grid.Row="1" Text="Mail" />
+            <TextBox Name="TextBoxMail" Grid.Column="1" Grid.Row="1" Margin="3" Text="{Binding ItemInForm.Mail, Mode=TwoWay}"/>
+		</Grid>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="34, 3">
-            <Button Name="ButtonAjouter" Content="Ajouter" Margin="3" Padding="3" Command="{Binding CommandAdd}"/>
-            <Button Name="ButtonModify" Content="Modifier" Margin="3" Padding="3" Command="{Binding CommandModify}"/>
-        </StackPanel>
-    </Grid>
+		<DataGrid Name="DataGridClients" ItemsSource="{Binding Path=Fournisseurs}" Grid.Row="1"
+				  IsReadOnly="True" AutoGenerateColumns="False"
+				  SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionChanged="DataGrid_OnSelectionChanged">
+			<DataGrid.Columns>
+				<DataGridTextColumn Visibility="Hidden" Binding="{Binding Id}" />
+				<DataGridTextColumn Header="Nom" Binding="{Binding Nom}" Width="*" />
+				<DataGridTextColumn Header="Mail" Binding="{Binding Mail}" Width="*" />
+			</DataGrid.Columns>
+		</DataGrid>
+
+		<StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="34, 3">
+			<Button Name="ButtonAjouter" Content="Ajouter" Margin="3" Padding="3" Command="{Binding CommandAdd}"/>
+			<Button Name="ButtonModify" Content="Modifier" Margin="3" Padding="3" Command="{Binding CommandModify}"/>
+		</StackPanel>
+	</Grid>
 </Window>

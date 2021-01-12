@@ -10,10 +10,11 @@ namespace Database.Classes
 		{
 		}
 
-		public Fournisseur(int id, string nom)
+		public Fournisseur(int id, string nom, string mail)
 		{
 			Id = id;
 			Nom = nom;
+			Mail = mail;
 		}
 
 		public override List<(string, Type)> GetChamps()
@@ -22,6 +23,7 @@ namespace Database.Classes
 			{
 				_champs.Add(("id", typeof(int)));
 				_champs.Add(("nom", typeof(string)));
+				_champs.Add(("mail", typeof(string)));
 			}
 
 			return _champs;
@@ -33,7 +35,7 @@ namespace Database.Classes
 		}
 
 		public int Id { get; set; }
-
 		public string Nom { get; set; }
+		public string Mail { get; set; }
 	}
 }

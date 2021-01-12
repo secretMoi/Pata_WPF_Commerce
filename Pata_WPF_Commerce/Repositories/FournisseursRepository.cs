@@ -68,7 +68,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Gestion.Ajouter(model.Nom);
+				return Gestion.Ajouter(model.Nom, model.Mail);
 			}
 			catch (Exception e)
 			{
@@ -102,7 +102,7 @@ namespace Pata_WPF_Commerce.Repositories
 		{
 			try
 			{
-				return Gestion.Modifier(model.Id, model.Nom);
+				return Gestion.Modifier(model.Id, model.Nom, model.Mail);
 			}
 			catch (Exception e)
 			{

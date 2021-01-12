@@ -6,6 +6,7 @@ namespace Pata_WPF_Commerce.ViewModels.DataBinding
 	{
 		private int _id;
 		private string _nom;
+		private string _mail;
 
 		public int Id
 		{
@@ -17,6 +18,12 @@ namespace Pata_WPF_Commerce.ViewModels.DataBinding
 		{
 			get => _nom;
 			set => AssignField(ref _nom, value, MethodBase.GetCurrentMethod().Name);
+		}
+
+		public string Mail
+		{
+			get => _mail;
+			set => AssignField(ref _mail, value, MethodBase.GetCurrentMethod().Name);
 		}
 	}
 }
